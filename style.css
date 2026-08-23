@@ -338,3 +338,14 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 
 /* 떠 있는 노란 카톡 버튼이 맨 아랫줄을 가리지 않게 자리를 비워둔다 */
 @media (max-width:600px){ footer{padding-bottom:132px} }
+
+/* 미술치료 사진 세 장 — 화면 폭에 따라 3장·2장·1장 */
+.artgrid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+
+/* 오시는 길 — 찾아오실 때 보이는 모습 */
+.waygrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 34px}
+/* .fig img 의 height:100% 를 물려받으면 그림이 칸 전체를 먹어 설명글이 잘린다 */
+.waygrid .fig img{aspect-ratio:4/3;object-fit:cover;height:auto}
+.waygrid figcaption{padding:11px 14px;border-top:1px solid var(--mist);background:#fff;
+  font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+@media (max-width:700px){ .waygrid{grid-template-columns:1fr;gap:14px} }
