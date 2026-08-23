@@ -272,7 +272,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--sky);outline:none;box
 .info a{color:var(--sky-deep)}
 
 /* ── 푸터 ─────────────────────────────────────────────────────── */
-footer{background:var(--ivory);border-top:1px solid var(--mist);padding:64px 0 46px;font-size:14px;color:var(--ink-soft);line-height:1.95}
+footer{background:var(--ivory);border-top:1px solid var(--mist);padding:64px 0 104px;font-size:14px;color:var(--ink-soft);line-height:1.95}
 footer .fb{font-family:'Gowun Batang',serif;font-size:18px;color:var(--ink);margin-bottom:18px}
 footer .fl{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px}
 footer a{color:var(--sky-deep)}
@@ -327,3 +327,14 @@ h1:not(.hero-line){font-size:clamp(26px,3.4vw,38px);line-height:1.55;margin-bott
 .endcta h2{margin-bottom:26px}
 .endcta .btns{display:flex;gap:12px;flex-wrap:wrap}
 @media (max-width:600px){ .endcta{padding:74px 0} }
+
+/* 꼬리말 맨 아래 — 글은 상담센터 것, 만든 것은 Perfect_Web 것 */
+footer .fend{margin-top:26px;padding-top:20px;border-top:1px solid var(--mist);
+  display:flex;justify-content:space-between;gap:10px 28px;flex-wrap:wrap;
+  font-size:13px;color:#8B9AA4}
+footer .fend p{margin:0}
+footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
+@media (max-width:600px){ footer .fend{display:block} footer .fend .by{margin-top:6px} }
+
+/* 떠 있는 노란 카톡 버튼이 맨 아랫줄을 가리지 않게 자리를 비워둔다 */
+@media (max-width:600px){ footer{padding-bottom:132px} }
