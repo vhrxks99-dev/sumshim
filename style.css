@@ -1,0 +1,329 @@
+/* ═══════════════════════════════════════════════════════════════
+   쉬는숨쉬는쉼 상담센터
+   색은 '깊이'다 — 표면(밝은 하늘)에서 시작해 상담철학에서 가장 깊어지고,
+   상담안내부터 다시 밝아진다. 증상 → 그 아래의 이유 → 다시 삶.
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --surface:#FCFBF8;      /* 오프화이트 — 기본 바탕 */
+  --ivory:#F4EFE6;        /* 아이보리 — 숨 쉬는 여백 블록 */
+  --sky:#7FB0CC;          /* 하늘색 — 맑고 차분하게, 쨍하지 않게 */
+  --sky-soft:#EAF2F7;     /* 옅은 하늘 */
+  --sky-deep:#3A6E8C;     /* 깊은 물 — 철학 섹션 */
+  --sky-deeper:#2C566D;
+  --ink:#24313A;          /* 본문 — 순검정 아님 */
+  --ink-soft:#5A6B76;
+  --mist:#DCE6EB;         /* 옅은 블루그레이 — 선 */
+  --maxw:1120px;
+  --read:660px;           /* 글을 천천히 읽는 너비 */
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+body{
+  margin:0;background:var(--surface);color:var(--ink);
+  font-family:'IBM Plex Sans KR',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
+  font-weight:300;font-size:17px;line-height:1.95;letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--sky-deep);outline-offset:3px;border-radius:2px}
+
+/* ── 공통 레이아웃 ────────────────────────────────────────────── */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.read{max-width:var(--read)}
+.band{padding:132px 0}
+.band--tight{padding:96px 0}
+.eyebrow{
+  font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--sky-deep);margin:0 0 22px;
+}
+.band--deep .eyebrow{color:#9FC6DA}
+h1,h2,h3{font-family:'Gowun Batang',serif;font-weight:400;letter-spacing:-.02em;margin:0}
+h2{font-size:clamp(26px,3.4vw,38px);line-height:1.55;margin-bottom:34px}
+h3{font-size:20px;line-height:1.7;margin-bottom:14px}
+p{margin:0 0 22px}
+.lead{font-size:19px;line-height:2.05;color:var(--ink)}
+.muted{color:var(--ink-soft)}
+.rule{height:1px;background:var(--mist);border:0;margin:0}
+
+/* ── 깊이 밴드 ────────────────────────────────────────────────── */
+.band--ivory{background:var(--ivory)}
+.band--sky{background:var(--sky-soft)}
+.band--deep{background:var(--sky-deep);color:#EAF2F7}
+.band--deep h2,.band--deep h3{color:#fff}
+.band--deep .muted{color:#B6CEDC}
+.band--deeper{background:var(--sky-deeper);color:#EAF2F7}
+.band--deeper h2{color:#fff}
+
+/* ── 헤더 ─────────────────────────────────────────────────────── */
+header{
+  position:sticky;top:0;z-index:60;background:rgba(252,251,248,.92);
+  backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--mist);
+}
+.nav{display:flex;align-items:center;gap:20px;height:70px}
+.brand{font-family:'Gowun Batang',serif;font-size:19px;letter-spacing:-.03em;text-decoration:none;white-space:nowrap}
+.brand span{color:var(--sky-deep)}
+.menu{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
+.menu a{
+  text-decoration:none;font-size:14px;font-weight:400;color:var(--ink-soft);
+  padding:9px 12px;border-radius:7px;white-space:nowrap;
+  transition:color .18s ease,background .18s ease;
+}
+.menu a:hover{color:var(--sky-deep);background:var(--sky-soft)}
+.menu a.cta{background:var(--sky-deep);color:#fff;font-weight:500}
+.menu a.cta:hover{background:#24485C}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--mist);
+  border-radius:8px;padding:9px 13px;font-size:14px;cursor:pointer;color:var(--ink);font-family:inherit}
+@media (max-width:1000px){
+  .menu{display:none;position:absolute;left:0;right:0;top:70px;background:var(--surface);
+    border-bottom:1px solid var(--mist);flex-direction:column;padding:12px 20px 20px;gap:0}
+  .menu.open{display:flex}
+  .menu a{padding:13px 4px;font-size:16px;border-radius:0}
+  .menu a.cta{margin-top:10px;border-radius:8px;text-align:center;padding:14px}
+  .burger{display:block}
+}
+
+/* ── HERO — 질문에서 이해로 ───────────────────────────────────── */
+.hero{padding:120px 0 108px;position:relative;overflow:hidden}
+.hero::after{ /* 아주 옅은 하늘 — 위쪽 공기 */
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;
+  background:radial-gradient(120% 78% at 50% -18%, #E4EFF5 0%, rgba(228,239,245,0) 62%);
+}
+.qs{margin:0 0 40px;max-width:var(--read)}
+.q{
+  font-family:'Gowun Batang',serif;font-size:clamp(19px,2.5vw,25px);line-height:1.95;
+  color:var(--ink-soft);margin:0 0 6px;opacity:0;transform:translateY(9px);
+}
+.q b{font-weight:400;color:var(--sky-deep)}
+.hero-line{
+  font-family:'Gowun Batang',serif;font-size:clamp(30px,5vw,52px);line-height:1.5;
+  letter-spacing:-.035em;margin:0 0 30px;max-width:15ch;opacity:0;transform:translateY(12px);
+}
+.hero-sub{max-width:var(--read);opacity:0;transform:translateY(12px)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:38px;opacity:0;transform:translateY(12px)}
+.play .q,.play .hero-line,.play .hero-sub,.play .hero-actions{
+  animation:rise .9s cubic-bezier(.22,.75,.3,1) forwards;
+}
+.play .q:nth-child(1){animation-delay:.15s}
+.play .q:nth-child(2){animation-delay:.75s}
+.play .q:nth-child(3){animation-delay:1.35s}
+.play .hero-line{animation-delay:2.1s}
+.play .hero-sub{animation-delay:2.4s}
+.play .hero-actions{animation-delay:2.6s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .q,.hero-line,.hero-sub,.hero-actions{opacity:1!important;transform:none!important;animation:none!important}
+}
+
+.btn{
+  display:inline-block;text-decoration:none;font-size:15px;font-weight:500;
+  padding:15px 28px;border-radius:9px;border:1px solid transparent;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+.btn-solid{background:var(--sky-deep);color:#fff}
+.btn-solid:hover{background:#24485C}
+.btn-line{border-color:var(--mist);color:var(--ink)}
+.btn-line:hover{border-color:var(--sky);background:var(--sky-soft)}
+.band--deep .btn-line{border-color:rgba(255,255,255,.35);color:#fff}
+.band--deep .btn-line:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
+
+/* ── 스크롤 등장 ──────────────────────────────────────────────── */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){ .rv{opacity:1;transform:none;transition:none} }
+
+/* ── 목록 ─────────────────────────────────────────────────────── */
+.qlist{list-style:none;padding:0;margin:0;columns:2;column-gap:44px}
+.qlist li{
+  break-inside:avoid;padding:13px 0 13px 22px;position:relative;
+  border-bottom:1px solid var(--mist);font-size:16px;line-height:1.8;
+}
+.qlist li::before{content:'';position:absolute;left:0;top:23px;width:9px;height:1px;background:var(--sky)}
+@media (max-width:720px){ .qlist{columns:1} }
+
+/* ── 상담 진행 과정 — 여기서만 번호를 쓴다(실제 순서라서) ────── */
+.steps{display:grid;gap:0;margin-top:8px}
+.step{display:grid;grid-template-columns:74px 1fr;gap:24px;padding:30px 0;border-top:1px solid rgba(255,255,255,.16)}
+.step:last-child{border-bottom:1px solid rgba(255,255,255,.16)}
+.step .n{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#8FBAD1;padding-top:5px;letter-spacing:.06em}
+.step h3{margin-bottom:8px}
+.step p{margin:0;color:#B6CEDC;font-size:16px}
+@media (max-width:600px){ .step{grid-template-columns:52px 1fr;gap:14px} }
+
+/* ── 정보 카드 ────────────────────────────────────────────────── */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--mist);
+  border:1px solid var(--mist);border-radius:12px;overflow:hidden}
+.card{background:var(--surface);padding:32px 28px}
+.card .k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--sky-deep);margin-bottom:12px}
+.card .v{font-family:'Gowun Batang',serif;font-size:25px;line-height:1.5}
+.card .s{font-size:14px;color:var(--ink-soft);margin-top:8px;line-height:1.75}
+
+/* ── 상담사 ───────────────────────────────────────────────────── */
+.person{display:grid;grid-template-columns:300px 1fr;gap:54px;align-items:start}
+@media (max-width:820px){ .person{grid-template-columns:1fr;gap:32px} }
+.photo{
+  border-radius:12px;aspect-ratio:4/5;border:1px solid var(--mist);
+  background:linear-gradient(168deg,#EAF2F7 0%,#F4EFE6 100%);
+  display:flex;align-items:flex-end;padding:20px;
+}
+.photo .cap{font-size:12.5px;color:var(--ink-soft);line-height:1.7}
+.photo--wide{aspect-ratio:16/10}
+
+/* ── 사진 — 말 대신 숨 쉬는 자리 ───────────────────────────────── */
+.fig{margin:0;overflow:hidden;border-radius:12px;border:1px solid var(--mist);background:var(--sky-soft)}
+.fig img{display:block;width:100%;height:100%;object-fit:cover}
+.fig--tall{aspect-ratio:4/5}
+.fig--wide{aspect-ratio:16/10}
+/* 미술치료 — 글이 먼저 읽히고, 사진이 옆에서 거든다 */
+#art .person{grid-template-columns:1fr 380px}
+@media (max-width:820px){ #art .person{grid-template-columns:1fr} }
+.artgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+@media (max-width:820px){ .artgrid{grid-template-columns:1fr;gap:14px} }
+
+/* 섹션과 섹션 사이, 글이 잠시 멈추는 띠 */
+.figband{position:relative;overflow:hidden;height:clamp(260px,38vw,440px);background:var(--sky-soft)}
+.figband img{display:block;width:100%;height:100%;object-fit:cover}
+.figband::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(36,49,58,.16),rgba(36,49,58,.02) 42%,rgba(36,49,58,.20))}
+.figband .figword{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 28px 34px}
+.figband .figword p{margin:0;color:#fff;font-size:clamp(16px,2vw,21px);
+  line-height:1.75;letter-spacing:-.01em;text-shadow:0 1px 14px rgba(20,32,40,.45)}
+@media (max-width:640px){ .figband{height:230px} }
+
+/* ── 이름을 작게, 중간중간 — 선 대신 쉼표처럼 ─────────────────── */
+.mark{display:flex;align-items:center;gap:clamp(14px,3vw,26px)}
+.mark::before,.mark::after{content:"";flex:1;height:1px;background:var(--mist)}
+.mark span{font-family:'Gowun Batang',serif;font-size:13.5px;letter-spacing:.3em;text-indent:.3em;
+  color:var(--ink-soft);white-space:nowrap}
+.mark em{font-style:normal;color:var(--sky-deep)}
+.band--deep .mark::before,.band--deep .mark::after{background:rgba(255,255,255,.20)}
+.band--deep .mark span{color:#9FC6DA}
+.band--deep .mark em{color:#fff}
+@media (max-width:600px){ .mark span{font-size:12.5px;letter-spacing:.24em;text-indent:.24em} }
+
+/* 사진 띠 위 작은 이름 도장 */
+.figwrap{max-width:var(--maxw);margin:0 auto}
+.figband .stamp{display:block;font-family:'Gowun Batang',serif;font-size:12px;
+  letter-spacing:.34em;text-indent:.34em;color:rgba(255,255,255,.66);margin-bottom:11px}
+.figband .stamp em{font-style:normal;color:rgba(255,255,255,.92)}
+
+/* 오시는 길 지도 */
+.mapfig{margin:0 0 34px;border:1px solid var(--mist);border-radius:12px;overflow:hidden;
+  display:block;text-decoration:none;background:var(--sky-soft)}
+.mapfig img{display:block;width:100%;height:auto}
+.mapfig figcaption{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:13px 18px;border-top:1px solid var(--mist);background:#fff;
+  font-size:13.5px;color:var(--ink-soft)}
+.mapfig figcaption b{font-weight:500;color:var(--ink)}
+.mapfig figcaption .go{color:var(--sky-deep)}
+.mapfig figcaption .src{color:#93A2AB;font-size:12.5px}
+/* 좁은 화면에서는 줄이지 말고 잘라서 — 글씨가 읽혀야 한다 */
+@media (max-width:640px){
+  .mapfig img{aspect-ratio:3/4;object-fit:cover;object-position:52% 42%}
+  .mapfig figcaption{display:block;padding:12px 14px;font-size:13px}
+  .mapfig figcaption .go{display:inline-block;margin-top:7px}
+  .mapfig figcaption .src{display:block;margin-top:5px}
+}
+
+/* ── 게시판 ───────────────────────────────────────────────────── */
+.posts{display:grid;gap:1px;background:var(--mist);border-top:1px solid var(--mist);border-bottom:1px solid var(--mist)}
+.post{background:var(--surface);padding:26px 4px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:baseline;
+  cursor:pointer;transition:background .18s ease}
+.post:hover{background:var(--sky-soft)}
+.post .t{font-family:'Gowun Batang',serif;font-size:19px;line-height:1.6}
+.post .d{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+.post .x{grid-column:1/-1;font-size:15.5px;color:var(--ink-soft);line-height:1.9;margin-top:6px;display:none}
+.post.open .x{display:block}
+.band--ivory .post{background:var(--ivory)}
+.band--ivory .post:hover{background:#EFE8DC}
+
+.review{background:var(--surface);border:1px solid var(--mist);border-radius:12px;padding:30px 28px}
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.review .rq{font-family:'Gowun Batang',serif;font-size:17.5px;line-height:1.95;margin:0 0 16px}
+.review .rm{font-size:13px;color:var(--ink-soft)}
+
+/* ── 폼 ───────────────────────────────────────────────────────── */
+.form{display:grid;gap:20px;max-width:640px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:600px){ .row{grid-template-columns:1fr} }
+label{display:block;font-size:14px;font-weight:500;margin-bottom:8px}
+label .req{color:#B4553F;margin-left:3px}
+input[type=text],input[type=tel],select,textarea{
+  width:100%;padding:14px 15px;border:1px solid var(--mist);border-radius:9px;
+  background:#fff;font-family:inherit;font-size:15.5px;font-weight:300;color:var(--ink);line-height:1.7;
+}
+textarea{min-height:120px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--sky);outline:none;box-shadow:0 0 0 3px rgba(127,176,204,.18)}
+.hint{font-size:13.5px;color:var(--ink-soft);margin-top:7px;line-height:1.75}
+.agree{display:flex;gap:11px;align-items:flex-start;background:var(--ivory);padding:18px 20px;border-radius:10px}
+.agree input{margin-top:5px;width:17px;height:17px;flex:none;accent-color:var(--sky-deep)}
+.agree label{margin:0;font-weight:400;font-size:14.5px;line-height:1.8}
+.formmsg{font-size:14.5px;line-height:1.8;padding:15px 17px;border-radius:9px;display:none}
+.formmsg.err{display:block;background:#FBEEEA;color:#8C3F2C}
+.formmsg.ok{display:block;background:var(--sky-soft);color:var(--sky-deep)}
+
+/* ── 오시는 길 ────────────────────────────────────────────────── */
+.info{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--mist);border:1px solid var(--mist);border-radius:12px;overflow:hidden}
+@media (max-width:760px){ .info{grid-template-columns:1fr} }
+.info div{background:var(--surface);padding:26px 28px}
+.info .k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--sky-deep);margin-bottom:9px}
+.info .v{font-size:16px;line-height:1.85}
+.info a{color:var(--sky-deep)}
+
+/* ── 푸터 ─────────────────────────────────────────────────────── */
+footer{background:var(--ivory);border-top:1px solid var(--mist);padding:64px 0 46px;font-size:14px;color:var(--ink-soft);line-height:1.95}
+footer .fb{font-family:'Gowun Batang',serif;font-size:18px;color:var(--ink);margin-bottom:18px}
+footer .fl{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px}
+footer a{color:var(--sky-deep)}
+.biz{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:6px}
+
+/* ── 블로그·인스타그램 ────────────────────────────────────────── */
+.sns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.sns a{
+  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  font-size:14px;font-weight:400;color:var(--ink);
+  padding:11px 17px;border:1px solid var(--mist);border-radius:9px;background:#fff;
+  transition:border-color .18s ease,background .18s ease;
+}
+.sns a:hover{border-color:var(--sky);background:var(--sky-soft)}
+.sns svg{width:17px;height:17px;flex:none;color:var(--sky-deep)}
+.sns .h{color:var(--ink-soft);font-size:13px}
+
+/* ── 모달 ─────────────────────────────────────────────────────── */
+.modal{position:fixed;inset:0;background:rgba(36,49,58,.5);z-index:100;display:none;padding:24px;overflow:auto}
+.modal.on{display:block}
+.modal .box{background:var(--surface);max-width:720px;margin:56px auto;border-radius:14px;padding:44px 40px}
+@media (max-width:600px){ .modal .box{padding:30px 24px;margin:20px auto} }
+.modal h3{margin-bottom:20px}
+.modal .close{float:right;background:none;border:1px solid var(--mist);border-radius:8px;
+  padding:7px 13px;cursor:pointer;font-family:inherit;font-size:14px;color:var(--ink)}
+.pp{font-size:14.5px;line-height:1.95;color:var(--ink-soft)}
+.pp b{color:var(--ink);font-weight:500}
+.pp .ppLead{padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--mist);color:var(--ink)}
+.pp .ppDate{margin-top:26px;padding-top:16px;border-top:1px solid var(--mist);font-size:13.5px;color:#8B9AA4}
+
+.kko{position:fixed;right:20px;bottom:20px;z-index:50;background:#FEE500;color:#191600;
+  text-decoration:none;font-size:14.5px;font-weight:500;padding:14px 20px;border-radius:30px;
+  box-shadow:0 6px 22px rgba(36,49,58,.18)}
+@media (max-width:600px){ .kko{right:14px;bottom:14px;padding:13px 18px;font-size:14px} }
+
+/* ══════════════════════════════════════════════════════════════
+   여러 페이지로 나누면서 더한 것 (2026-08-23)
+   ══════════════════════════════════════════════════════════════ */
+
+/* 헤더가 떠 있으므로 #연결 로 뛰어갈 때 제목이 가리지 않게 */
+section[id]{scroll-margin-top:86px}
+
+/* 지금 보고 있는 메뉴 표시 */
+.menu a.on{color:var(--sky-deep);background:var(--sky-soft)}
+.menu a.cta.on{background:#24485C;color:#fff}
+
+/* 홈이 아닌 페이지의 큰 제목 — h2 와 같은 크기로 */
+h1:not(.hero-line){font-size:clamp(26px,3.4vw,38px);line-height:1.55;margin-bottom:34px}
+
+/* 페이지 맨 아래 상담신청 안내 */
+.endcta{padding:96px 0}
+.endcta h2{margin-bottom:26px}
+.endcta .btns{display:flex;gap:12px;flex-wrap:wrap}
+@media (max-width:600px){ .endcta{padding:74px 0} }
