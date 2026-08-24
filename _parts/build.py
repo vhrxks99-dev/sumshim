@@ -154,9 +154,11 @@ def head_html(p):
 <meta name="twitter:image" content="%(site)s/og-image.png">
 <meta property="og:locale" content="ko_KR">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<!-- 네이버 웹마스터도구 소유확인 (2026-08-24). 지우면 네이버가 사이트를 놓친다.
+<!-- 네이버·구글 소유확인 (2026-08-24). 확인이 끝난 뒤에도 지우면 안 된다.
+     지우면 등록이 풀려 검색엔진이 사이트를 놓친다.
      공개돼도 되는 값이다 — "이 사이트 주인이 맞다"는 표식일 뿐이다. -->
 <meta name="naver-site-verification" content="6db4474f0b2f6064f7390204bf5816c85947a4e0" />
+<meta name="google-site-verification" content="JOk7J9GzyTqubNFbiXDqvsrBnbBtkQ3SIFbsuILm3yc" />
 <!-- 탭에 뜨는 작은 그림. 없으면 브라우저가 지구본을 띄운다. -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="favicon.svg">
