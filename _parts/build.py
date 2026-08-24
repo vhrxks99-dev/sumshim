@@ -152,12 +152,53 @@ def head_html(p):
 <meta name="twitter:title" content="%(ogt)s">
 <meta name="twitter:description" content="%(ogd)s">
 <meta name="twitter:image" content="%(site)s/og-image.png">
+<meta property="og:locale" content="ko_KR">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<!-- 탭에 뜨는 작은 그림. 없으면 브라우저가 지구본을 띄운다. -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicon.svg">
+<meta name="theme-color" content="#3A6E8C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-</head>
-<body>""" % dict(title=p["title"], desc=p["desc"], ogt=p["ogt"], ogd=p["ogd"], url=url, site=SITE)
+%(jsonld)s</head>
+<body>""" % dict(title=p["title"], desc=p["desc"], ogt=p["ogt"], ogd=p["ogd"],
+                 url=url, site=SITE, jsonld=JSONLD)
+
+
+# ── 검색엔진에게 "여기가 어떤 곳인가"를 기계가 읽는 형식으로 알려준다 ──────
+#   구글은 이걸 보고 지도·지식패널에 쓰고, 네이버도 페이지 성격을 파악하는 데 쓴다.
+#   ⚠️ 여기 적는 값은 전부 사실이어야 한다. 모르는 값(우편번호·영업시간)은 아예 넣지 않는다.
+#   ⚠️ 네이버 서치어드바이저 소유확인 코드를 받으면 head 에 meta 한 줄을 더 넣어야 한다.
+JSONLD = """<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "MedicalBusiness"],
+  "name": "쉬는숨쉬는쉼 상담센터",
+  "alternateName": "쉬는숨 쉬는쉼",
+  "url": "https://sumshim.co.kr/",
+  "image": "https://sumshim.co.kr/og-image.png",
+  "description": "서울 신촌 심리상담센터. 증상을 빠르게 없애기보다 그 마음이 만들어진 이유를 함께 이해합니다. 성인 개인 심리상담과 미술치료.",
+  "telephone": "+82-10-9455-9580",
+  "email": "sumshim_@naver.com",
+  "founder": { "@type": "Person", "name": "김민정" },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "신촌로 109 르메이에르5차 지하 2층",
+    "addressLocality": "서대문구",
+    "addressRegion": "서울특별시",
+    "addressCountry": "KR"
+  },
+  "areaServed": ["서울 신촌", "서울 서대문구", "서울 홍대"],
+  "knowsAbout": ["심리상담", "미술치료", "불안", "우울", "대인관계"],
+  "sameAs": [
+    "https://blog.naver.com/sumshim_",
+    "https://www.instagram.com/sumshim_37/"
+  ]
+}
+</script>
+"""
 
 
 H2_FIRST = re.compile(r'<h2( [^>]*)?>', re.S)

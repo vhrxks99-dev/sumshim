@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- 브라우저 탭에 뜨는 작은 그림(파비콘).
+       색은 홈페이지의 '깊은 물' 색(--sky-deep #3A6E8C) 그대로 쓴다.
+       16px 로 줄어들어도 알아볼 수 있게 글자 하나만 크게 넣었다. -->
+  <rect width="64" height="64" rx="15" fill="#3A6E8C"/>
+  <text x="32" y="45" fill="#FCFBF8"
+        font-family="'Gowun Batang','Batang','AppleMyungjo','Nanum Myeongjo',serif"
+        font-size="42" text-anchor="middle">쉼</text>
+</svg>
