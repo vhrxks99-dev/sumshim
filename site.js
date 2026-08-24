@@ -259,11 +259,9 @@ if($('reviews-list')){
     }
   });
 
-  /* 확인 문제 — 열 때마다 숫자가 바뀐다 */
-  var rvA = 2 + Math.floor(Math.random() * 7);
-  var rvB = 2 + Math.floor(Math.random() * 7);
-  if($('rv-q')) $('rv-q').textContent = rvA + ' + ' + rvB + ' = ?';
-
+  /* 확인 문제(덧셈)는 2026-08-24 원장 지시로 뺐다. 손님한테 번거롭다.
+     광고 막는 건 나머지 셋이 계속 한다 — 화면 밖 허니팟 칸, 링크 금지(보관함 규칙), 5분 쿨다운.
+     광고가 실제로 들어오기 시작하면 그때 다시 넣으면 된다. */
   if($('rvForm')) $('rvForm').addEventListener('submit', function(e){
     e.preventDefault();
     var msg  = $('rvMsg');
@@ -278,8 +276,6 @@ if($('reviews-list')){
     if(/https?:\/\/|www\./i.test(body))
                           return show('err', '링크는 넣을 수 없습니다. 링크를 빼고 다시 올려주세요.');
     if(label.length < 2)  return show('err', '어떻게 표기할지 적어주세요. 예: 30대 · 개인상담');
-    if(parseInt(($('rv-sum').value || '').replace(/[^0-9]/g, ''), 10) !== rvA + rvB)
-                          return show('err', '확인 문제의 답이 맞지 않습니다.');
     if(!$('rv-agree').checked)
                           return show('err', '홈페이지 공개에 동의해 주셔야 올릴 수 있습니다.');
 

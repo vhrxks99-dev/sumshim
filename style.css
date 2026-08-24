@@ -39,7 +39,10 @@ a{color:inherit}
   color:var(--sky-deep);margin:0 0 22px;
 }
 .band--deep .eyebrow{color:#9FC6DA}
-h1,h2,h3{font-family:'Gowun Batang',serif;font-weight:400;letter-spacing:-.02em;margin:0}
+/* word-break:keep-all — 한글은 그냥 두면 낱말 한가운데서 잘린다.
+   ("후기입니 / 다." 처럼 끝 글자만 다음 줄로 떨어지던 것을 2026-08-24 에 고침)
+   어절 단위로 넘어가게 해서 줄이 바뀌더라도 말이 안 끊긴다. */
+h1,h2,h3{font-family:'Gowun Batang',serif;font-weight:400;letter-spacing:-.02em;margin:0;word-break:keep-all}
 h2{font-size:clamp(26px,3.4vw,38px);line-height:1.55;margin-bottom:34px}
 h3{font-size:20px;line-height:1.7;margin-bottom:14px}
 p{margin:0 0 22px}
@@ -398,3 +401,7 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 .admrow .btn{cursor:pointer;font-family:inherit;border:0}
 .linkish{background:none;border:0;padding:0;color:var(--sky-deep);text-decoration:underline;
   font-family:inherit;font-size:13.5px;cursor:pointer}
+
+/* 후기 제목은 두 문장이 각각 한 줄에 들어가야 한다(2026-08-24 원장 지적).
+   .read(660px) 를 물리면 좁아서 낱말이 잘렸다. 여기서는 너비를 풀어준다. */
+#reviews .rv-wide{max-width:none}
