@@ -179,10 +179,14 @@ if($('reviews-list')){
       + acts + '</div>';
   };
 
+  /* 홈에서는 맛보기로 몇 개만 보여준다(data-limit). 후기 페이지에서는 전부 */
+  var rvMax = parseInt(rvList.getAttribute('data-limit') || '', 10) || 0;
+
   var rvLoad = function(){
     var cols = 'select=id,body,label,status,created_at&order=created_at.desc';
     /* 관리자에게는 숨긴 것까지 보여준다. 손님에게는 보이는 것만 */
-    var q = rvAdmin ? '?' + cols + '&limit=60' : '?' + cols + '&status=eq.visible&limit=30';
+    var lim = rvMax || (rvAdmin ? 60 : 30);
+    var q = rvAdmin ? '?' + cols + '&limit=' + lim : '?' + cols + '&status=eq.visible&limit=' + lim;
     fetch(SB_URL + '/rest/v1/sumshim_reviews' + q, { headers: admHead() })
       .then(function(r){ if(!r.ok) throw 0; return r.json(); })
       .then(function(rows){

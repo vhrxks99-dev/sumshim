@@ -27,6 +27,7 @@ MENU = [
     ("상담사소개", "counseling.html#counselor",  None),
     ("미술치료",   "art.html",                   "art.html"),
     ("마음읽기",   "column.html",                "column.html"),
+    ("상담후기",   "review.html",                "review.html"),
     ("오시는길",   "apply.html#visit",           None),
 ]
 CTA = ("상담신청", "apply.html", "apply.html")
@@ -38,7 +39,15 @@ PAGES = [
       desc="서울 신촌 심리상담센터. 증상을 빠르게 없애기보다 그 마음이 만들어진 이유를 함께 이해합니다. 성인 개인 심리상담 · 미술치료.",
       ogt="쉬는숨쉬는쉼 상담센터",
       ogd="마음을 바꾸기 전에, 그 마음을 이해하는 시간.",
-      body=["home", "about", "who", "reviews"],
+      body=["home", "about", "who", "reviews-home"],
+      cta=True),
+
+ dict(file="review.html",
+      title="상담 후기 | 쉬는숨쉬는쉼 상담센터",
+      desc="쉬는숨쉬는쉼 상담센터를 찾아주신 분들이 직접 남겨주신 후기입니다. 이름 대신 연령대와 상담 유형만 표시합니다. 서울 신촌 심리상담·미술치료.",
+      ogt="상담 후기 — 쉬는숨쉬는쉼 상담센터",
+      ogd="방문해 주신 분들이 직접 남겨주신 후기입니다.",
+      body=["reviews"],
       cta=True),
 
  dict(file="philosophy.html",

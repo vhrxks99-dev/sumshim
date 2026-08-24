@@ -1,0 +1,19 @@
+<!-- ═══ 상담 후기 (홈 — 맛보기) ═══
+     후기 전체와 쓰는 칸은 review.html 에 있다(2026-08-24 원장 지시로 게시판을 따로 뺐다).
+     홈에서는 최근 세 개만 보여주고 나머지는 후기 페이지로 넘긴다. -->
+<section class="band" id="reviews">
+  <div class="wrap">
+    <p class="eyebrow rv">상담 후기</p>
+    <h2 class="rv read">방문해 주신 분들이 직접 남겨주신 후기입니다.<br>이름 대신 연령대와 상담 유형만 표시합니다.</h2>
+
+    <div class="reviews rv" id="reviews-list" data-limit="3"></div>
+    <p class="rv" id="reviews-empty" style="display:none;color:var(--ink-soft);font-size:15px;line-height:1.9;margin:0">
+      아직 남겨주신 후기가 없습니다.<br>첫 후기를 기다리고 있습니다.</p>
+
+    <div class="btns rv" style="margin-top:30px">
+      <a class="btn btn-line" href="review.html">후기 전체 보기 · 후기 남기기</a>
+    </div>
+
+    <p class="hint rv" style="margin-top:22px">내담자의 개인정보와 상담 내용 보호를 가장 우선합니다.</p>
+  </div>
+</section>
