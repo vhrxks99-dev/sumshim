@@ -101,7 +101,7 @@ header{
 .q b{font-weight:400;color:var(--sky-deep)}
 .hero-line{
   font-family:'Gowun Batang',serif;font-size:clamp(30px,5vw,52px);line-height:1.5;
-  letter-spacing:-.035em;margin:0 0 30px;max-width:15ch;opacity:0;transform:translateY(12px);
+  letter-spacing:-.035em;margin:0 0 30px;max-width:10.4em;opacity:0;transform:translateY(12px);
 }
 .hero-sub{max-width:var(--read);opacity:0;transform:translateY(12px)}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:38px;opacity:0;transform:translateY(12px)}
@@ -404,6 +404,7 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 .linkish{background:none;border:0;padding:0;color:var(--sky-deep);text-decoration:underline;
   font-family:inherit;font-size:13.5px;cursor:pointer}
 
-/* 후기 제목은 두 문장이 각각 한 줄에 들어가야 한다(2026-08-24 원장 지적).
-   .read(660px) 를 물리면 좁아서 낱말이 잘렸다. 여기서는 너비를 풀어준다. */
-#reviews .rv-wide{max-width:none}
+/* 제목은 폭을 풀고, 본문만 .read(660px) 로 묶는다 (2026-08-24 원장 지적).
+   660px 에 제목을 가두니 "살펴본 / 뒤," 처럼 문장 끝이 다음 줄로 떨어졌다.
+   h1~h3 의 word-break:keep-all 과 같이 쓰면 낱말도 안 잘리고 문장도 안 끊긴다. */
+.wide-line{max-width:none}
