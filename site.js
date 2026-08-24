@@ -447,6 +447,8 @@ if($('admModal')){
         var m = (res.j && (res.j.msg || res.j.error_description || res.j.message)) || '';
         if(/Invalid login/i.test(m))
           return show('err', '이메일이나 비밀번호가 맞지 않습니다.');
+        if(/허용되지 않은 이메일/.test(m))
+          return show('err', '이 이메일은 가입할 수 없습니다. 관리자 명단에 올라 있는 이메일만 가입됩니다.');
         if(/already registered|already been registered/i.test(m))
           return show('err', '이미 가입된 이메일입니다. 「로그인」으로 바꿔서 들어가세요.');
         if(/Email not confirmed/i.test(m))
