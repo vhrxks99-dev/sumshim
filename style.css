@@ -388,9 +388,16 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 .rvadmin button{font-family:inherit;font-size:13px;padding:6px 12px;border-radius:7px;
   border:1px solid var(--mist);background:#fff;color:var(--ink);cursor:pointer}
 
-/* 꼬리말의 「관리자」 — 손님에게는 그냥 흐린 글씨 하나 */
-.admlink{margin-left:10px;color:#A9B5BC;text-decoration:none}
-.admlink:hover{color:var(--sky-deep);text-decoration:underline}
+/* 메뉴 맨 오른쪽 「관리자」 — 원장님만 쓰는 자리 */
+.admbtn{font-family:inherit;font-size:13.5px;font-weight:400;color:var(--ink-soft);
+  background:none;border:1px solid var(--mist);border-radius:7px;padding:8px 13px;
+  margin-left:6px;cursor:pointer;white-space:nowrap;
+  transition:color .18s ease,background .18s ease,border-color .18s ease}
+.admbtn:hover{color:var(--sky-deep);background:var(--sky-soft);border-color:var(--sky)}
+.admbtn.on{color:var(--sky-deep);border-color:var(--sky)}
+@media (max-width:1000px){
+  .admbtn{width:100%;margin:10px 0 0;padding:13px;font-size:15px}
+}
 
 /* 관리자 로그인 상자 */
 .modal .admbox{max-width:460px}

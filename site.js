@@ -116,9 +116,12 @@ function admRenew(){
   })
   .catch(function(){ return false; });
 }
-/* 관리자인가? 손님은 표가 없으므로 물어보지도 않는다 */
+/* 관리자인가? 손님은 표가 없으므로 물어보지도 않는다.
+   한 화면에서 두 군데(메뉴 버튼·후기칸)가 물어보므로 답을 한 번만 받아 나눠 쓴다 */
+var admAsked = null;
 function admIs(){
-  if(!admTok() && !admRef()) return Promise.resolve(false);
+  if(admAsked) return admAsked;
+  if(!admTok() && !admRef()){ admAsked = Promise.resolve(false); return admAsked; }
   var ask = function(){
     return fetch(SB_URL + '/rest/v1/rpc/sumshim_is_admin', {
       method: 'POST',
@@ -128,12 +131,13 @@ function admIs(){
     .then(function(r){ return r.ok ? r.json() : null; })
     .catch(function(){ return null; });
   };
-  return ask().then(function(ok){
+  admAsked = ask().then(function(ok){
     if(ok === true) return true;
     return admRenew().then(function(done){
       return done ? ask().then(function(o){ return o === true; }) : false;
     });
   });
+  return admAsked;
 }
 
 if($('reviews-list')){
@@ -403,7 +407,19 @@ if($('admModal')){
   };
   var admShut = function(){ $('admModal').classList.remove('on'); };
 
-  if($('admLink')) $('admLink').addEventListener('click', admOpen);
+  /* 메뉴 맨 오른쪽 「관리자」 버튼.
+     로그인해 있으면 이 자리가 「로그아웃」이 된다. */
+  if($('admBtn')) admIs().then(function(ok){
+    var b = $('admBtn');
+    if(ok){
+      b.textContent = '로그아웃';
+      b.classList.add('on');
+      b.addEventListener('click', function(){ admSet('', ''); location.reload(); });
+    }else{
+      b.addEventListener('click', admOpen);
+    }
+  });
+
   $('admClose').addEventListener('click', admShut);
   $('admModal').addEventListener('click', function(e){ if(e.target === this) admShut(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') admShut(); });
