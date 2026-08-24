@@ -99,22 +99,39 @@ function admHead(extra){
   for(var k in e) h[k] = e[k];
   return h;
 }
-/* 표가 오래됐으면 조용히 새로 받아온다 */
+/* 표가 오래됐으면 조용히 새로 받아온다.
+   ⚠️ 실패했다고 곧바로 지우면 안 된다(2026-08-24에 실제로 로그인이 풀렸다).
+      · 창을 두 개 열어 두면 둘이 동시에 새 표를 받으러 간다. 표는 한 번 쓰면
+        새것으로 바뀌므로 늦게 도착한 쪽이 거절당한다 → 멀쩡한데 지워졌다.
+      · 인터넷이 잠깐 끊겨도 마찬가지였다.
+   그래서 서버가 '이 표는 못 쓴다'고 분명히 말할 때(400·401)만 지운다. */
+var admRenewing = null;
 function admRenew(){
+  if(admRenewing) return admRenewing;          // 같은 창에서 두 번 부르지 않게
   var r = admRef();
   if(!r) return Promise.resolve(false);
-  return fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', {
+  admRenewing = fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', {
     method: 'POST',
     headers: { apikey: SB_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({ refresh_token: r })
   })
-  .then(function(res){ return res.ok ? res.json() : null; })
-  .then(function(j){
-    if(!j || !j.access_token){ admSet('', ''); return false; }
-    admSet(j.access_token, j.refresh_token || r);
-    return true;
+  .then(function(res){
+    return res.json().catch(function(){ return null; })
+      .then(function(j){ return { ok: res.ok, status: res.status, j: j }; });
   })
-  .catch(function(){ return false; });
+  .then(function(out){
+    if(out.ok && out.j && out.j.access_token){
+      admSet(out.j.access_token, out.j.refresh_token || r);
+      return true;
+    }
+    // 그 사이 다른 창이 새 표를 받아 뒀다면 그걸로 다시 해보면 된다
+    if(admRef() && admRef() !== r) return true;
+    if(out.status === 400 || out.status === 401) admSet('', '');
+    return false;
+  })
+  .catch(function(){ return false; })          // 인터넷 문제 — 표는 그대로 둔다
+  .then(function(v){ admRenewing = null; return v; });
+  return admRenewing;
 }
 /* 관리자인가? 손님은 표가 없으므로 물어보지도 않는다.
    한 화면에서 두 군데(메뉴 버튼·후기칸)가 물어보므로 답을 한 번만 받아 나눠 쓴다 */

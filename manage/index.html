@@ -119,22 +119,35 @@ function setSession(acc, ref){ keep('sumshim_tok', acc); keep('sumshim_ref', ref
   history.replaceState(null, '', location.pathname);
 })();
 
-/* 표가 만료됐을 때 조용히 새로 받아온다 */
+/* 표가 만료됐을 때 조용히 새로 받아온다.
+   실패했다고 지우지 않는다 — 창을 두 개 열어 두면 늦게 도착한 쪽이 거절당하는데
+   그때 지워버리면 멀쩡한 로그인이 풀린다(2026-08-24에 실제로 겪음). */
+var renewing = null;
 function renew(){
+  if(renewing) return renewing;
   var r = refToken();
   if(!r) return Promise.resolve(false);
-  return fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', {
+  renewing = fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', {
     method:'POST',
     headers:{ apikey: SB_KEY, 'Content-Type':'application/json' },
     body: JSON.stringify({ refresh_token: r })
   })
-  .then(function(res){ return res.ok ? res.json() : null; })
-  .then(function(j){
-    if(!j || !j.access_token) return false;
-    setSession(j.access_token, j.refresh_token || r);
-    return true;
+  .then(function(res){
+    return res.json().catch(function(){ return null; })
+      .then(function(j){ return { ok:res.ok, status:res.status, j:j }; });
   })
-  .catch(function(){ return false; });
+  .then(function(out){
+    if(out.ok && out.j && out.j.access_token){
+      setSession(out.j.access_token, out.j.refresh_token || r);
+      return true;
+    }
+    if(refToken() && refToken() !== r) return true;   // 다른 창이 먼저 받아 뒀다
+    if(out.status === 400 || out.status === 401) setSession('', '');
+    return false;
+  })
+  .catch(function(){ return false; })
+  .then(function(v){ renewing = null; return v; });
+  return renewing;
 }
 
 function api(path, opt){
