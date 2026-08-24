@@ -117,7 +117,8 @@
       <a href="apply.html">상담 신청</a>
     </div>
     <div class="fend">
-      <p>&copy; 2026 쉬는숨쉬는쉼 상담센터. All rights reserved.</p>
+      <p>&copy; 2026 쉬는숨쉬는쉼 상담센터. All rights reserved.
+        <a href="#" id="admLink" class="admlink">관리자</a></p>
       <p class="by">Design &amp; Development &copy; 2026 <b>Perfect_Web</b>. All rights reserved.</p>
     </div>
   </div>
@@ -197,6 +198,38 @@
 
       <p class="ppDate">시행일자 : 2026년 8월 20일</p>
     </div>
+  </div>
+</div>
+
+<!-- 관리자 로그인 — 원장님만 씁니다.
+     손님에게는 꼬리말 맨 아래 흐린 글씨 하나로만 보입니다.
+     여기서 로그인하면 후기마다 [숨기기] [지우기] 가 붙습니다. -->
+<div class="modal" id="admModal" role="dialog" aria-modal="true" aria-labelledby="admTitle">
+  <div class="box admbox">
+    <button class="close" id="admClose">닫기</button>
+    <h3 id="admTitle">관리자 로그인</h3>
+
+    <form class="form" id="admForm" novalidate>
+      <div>
+        <label for="adm-em">이메일</label>
+        <input type="email" id="adm-em" autocomplete="email" placeholder="관리자 이메일">
+      </div>
+      <div>
+        <label for="adm-pw">비밀번호</label>
+        <input type="password" id="adm-pw" autocomplete="current-password" placeholder="비밀번호">
+      </div>
+
+      <div class="formmsg" id="admMsg"></div>
+
+      <div class="admrow">
+        <button type="submit" class="btn btn-solid" id="admGo">로그인</button>
+        <button type="button" class="linkish" id="admToggle">처음이신가요? 가입하기</button>
+      </div>
+
+      <p class="hint" id="admHint" style="display:none">
+        비밀번호는 여섯 글자 이상으로 정해주세요. 이 화면에서 직접 정하시는 것이라
+        다른 사람은 알 수 없습니다.</p>
+    </form>
   </div>
 </div>
 

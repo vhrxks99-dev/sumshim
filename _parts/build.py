@@ -183,6 +183,7 @@ def build():
             part("footer"), "",
             part("kko"), "",
             part("ppmodal"), "",
+            part("admmodal"), "",
             '<script src="site.js"></script>',
             "</body>", "</html>", ""
         ])

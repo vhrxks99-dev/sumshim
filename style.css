@@ -249,7 +249,7 @@ header{
 @media (max-width:600px){ .row{grid-template-columns:1fr} }
 label{display:block;font-size:14px;font-weight:500;margin-bottom:8px}
 label .req{color:#B4553F;margin-left:3px}
-input[type=text],input[type=tel],select,textarea{
+input[type=text],input[type=tel],input[type=email],input[type=password],select,textarea{
   width:100%;padding:14px 15px;border:1px solid var(--mist);border-radius:9px;
   background:#fff;font-family:inherit;font-size:15.5px;font-weight:300;color:var(--ink);line-height:1.7;
 }
@@ -369,3 +369,33 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 /* 사람에게는 보이지 않는 칸 — 광고 프로그램만 여기를 채운다.
    display:none 은 일부 프로그램이 눈치채므로 화면 밖으로 밀어낸다 */
 .rvtrap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* ── 홈페이지에서 바로 관리하기 (2026-08-24) ───────────────────────
+   원장님이 로그인했을 때만 그려진다. 손님 화면에는 아예 안 나온다 */
+.review.off{background:#F1F1EE;border-style:dashed}
+.rvtag{font-size:11.5px;padding:2px 8px;border-radius:20px;background:#E3E3DE;
+  color:#6B6B63;margin-left:7px;vertical-align:middle}
+.rvacts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:13px;
+  border-top:1px solid var(--mist)}
+.rvacts button{font-family:inherit;font-size:13px;padding:7px 13px;border-radius:7px;
+  border:1px solid var(--mist);background:#fff;color:var(--ink-soft);cursor:pointer}
+.rvacts button:hover{background:var(--ivory)}
+.rvacts button.del{color:#8C3F2C;border-color:#E7CFC7}
+.rvacts button.del:hover{background:#FBEEEA}
+.rvadmin{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  font-size:13.5px;color:var(--sky-deep);background:var(--sky-soft);
+  border-radius:9px;padding:12px 16px;margin:0 0 18px}
+.rvadmin button{font-family:inherit;font-size:13px;padding:6px 12px;border-radius:7px;
+  border:1px solid var(--mist);background:#fff;color:var(--ink);cursor:pointer}
+
+/* 꼬리말의 「관리자」 — 손님에게는 그냥 흐린 글씨 하나 */
+.admlink{margin-left:10px;color:#A9B5BC;text-decoration:none}
+.admlink:hover{color:var(--sky-deep);text-decoration:underline}
+
+/* 관리자 로그인 상자 */
+.modal .admbox{max-width:460px}
+.admbox .form{max-width:none}
+.admrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.admrow .btn{cursor:pointer;font-family:inherit;border:0}
+.linkish{background:none;border:0;padding:0;color:var(--sky-deep);text-decoration:underline;
+  font-family:inherit;font-size:13.5px;cursor:pointer}

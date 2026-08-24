@@ -63,10 +63,15 @@ if($('steps')) $('steps').innerHTML = STEPS.map(function(s){
 if($('who-list')) $('who-list').innerHTML = WHO.map(function(w){ return '<li>'+esc(w)+'</li>'; }).join('');
 
 /* ── 후기 (2026-08-24) ─────────────────────────────────────────────
-   후기는 이제 방문하신 분이 홈페이지에서 직접 남깁니다.
-   글은 Supabase 보관함에 쌓이고 새로고침하면 바로 보입니다.
-   숨기거나 지우는 것은 관리 화면(sumshim.co.kr/manage)에서만 됩니다.
-   아래 두 줄은 공개용 열쇠라 홈페이지에 들어 있어도 안전합니다. */
+   후기는 방문하신 분이 홈페이지에서 직접 남깁니다.
+   글은 Supabase 보관함에 쌓이고, 새로고침하면 바로 보입니다.
+
+   원장님이 한 번 로그인해 두시면(sumshim.co.kr/manage) 이 홈페이지에서
+   후기마다 [숨기기] [지우기] 가 바로 붙습니다. 손님 눈에는 안 보입니다.
+
+   아래 두 줄은 공개용 열쇠라 홈페이지에 들어 있어도 안전합니다.
+   이 열쇠로는 '보이는 후기 읽기'와 '새 후기 남기기'밖에 못 합니다.
+   숨기기·지우기는 보관함 규칙이 관리자 계정에만 허락합니다. */
 var SB_URL = 'https://ybtxwywqhirltloinfju.supabase.co';
 var SB_KEY = 'sb_publishable_svvJEf4Obdq24Z4dMsqurw_f_dDRU17';
 
@@ -77,21 +82,90 @@ function rvDate(iso){
   return d.getFullYear() + '.' + p(d.getMonth()+1) + '.' + p(d.getDate());
 }
 
+/* ── 로그인 흔적 ───────────────────────────────────────────────────
+   관리 화면에서 로그인하면 이 브라우저에 표가 남습니다.
+   같은 주소(sumshim.co.kr)라서 홈페이지에서도 그 표를 그대로 씁니다. */
+function admTok(){ try{ return localStorage.getItem('sumshim_tok') || ''; }catch(e){ return ''; } }
+function admRef(){ try{ return localStorage.getItem('sumshim_ref') || ''; }catch(e){ return ''; } }
+function admSet(a, r){
+  try{
+    a ? localStorage.setItem('sumshim_tok', a) : localStorage.removeItem('sumshim_tok');
+    r ? localStorage.setItem('sumshim_ref', r) : localStorage.removeItem('sumshim_ref');
+  }catch(e){}
+}
+function admHead(extra){
+  var h = { apikey: SB_KEY, Authorization: 'Bearer ' + (admTok() || SB_KEY) };
+  var e = extra || {};
+  for(var k in e) h[k] = e[k];
+  return h;
+}
+/* 표가 오래됐으면 조용히 새로 받아온다 */
+function admRenew(){
+  var r = admRef();
+  if(!r) return Promise.resolve(false);
+  return fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', {
+    method: 'POST',
+    headers: { apikey: SB_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ refresh_token: r })
+  })
+  .then(function(res){ return res.ok ? res.json() : null; })
+  .then(function(j){
+    if(!j || !j.access_token){ admSet('', ''); return false; }
+    admSet(j.access_token, j.refresh_token || r);
+    return true;
+  })
+  .catch(function(){ return false; });
+}
+/* 관리자인가? 손님은 표가 없으므로 물어보지도 않는다 */
+function admIs(){
+  if(!admTok() && !admRef()) return Promise.resolve(false);
+  var ask = function(){
+    return fetch(SB_URL + '/rest/v1/rpc/sumshim_is_admin', {
+      method: 'POST',
+      headers: admHead({ 'Content-Type': 'application/json' }),
+      body: '{}'
+    })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .catch(function(){ return null; });
+  };
+  return ask().then(function(ok){
+    if(ok === true) return true;
+    return admRenew().then(function(done){
+      return done ? ask().then(function(o){ return o === true; }) : false;
+    });
+  });
+}
+
 if($('reviews-list')){
   var rvList  = $('reviews-list');
   var rvEmpty = $('reviews-empty');
+  var rvAdmin = false;
+
+  var rvCard = function(r){
+    var off  = r.status === 'hidden';
+    var acts = rvAdmin
+      ? '<div class="rvacts">'
+        + '<button type="button" data-act="' + (off ? 'show' : 'hide') + '">'
+        + (off ? '다시 보이기' : '숨기기') + '</button>'
+        + '<button type="button" class="del" data-act="del">지우기</button>'
+        + '</div>'
+      : '';
+    return '<div class="review' + (off ? ' off' : '') + '" data-id="' + esc(r.id || '') + '">'
+      + '<p class="rq">“' + nl2br(r.body) + '”</p>'
+      + '<div class="rm"><span>' + esc(r.label)
+      + (off ? '<span class="rvtag">숨김</span>' : '') + '</span>'
+      + '<span class="rd">' + rvDate(r.created_at) + '</span></div>'
+      + acts + '</div>';
+  };
 
   var rvLoad = function(){
-    fetch(SB_URL + '/rest/v1/sumshim_reviews'
-        + '?select=body,label,created_at&status=eq.visible&order=created_at.desc&limit=30',
-      { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } })
+    var cols = 'select=id,body,label,status,created_at&order=created_at.desc';
+    /* 관리자에게는 숨긴 것까지 보여준다. 손님에게는 보이는 것만 */
+    var q = rvAdmin ? '?' + cols + '&limit=60' : '?' + cols + '&status=eq.visible&limit=30';
+    fetch(SB_URL + '/rest/v1/sumshim_reviews' + q, { headers: admHead() })
       .then(function(r){ if(!r.ok) throw 0; return r.json(); })
       .then(function(rows){
-        rvList.innerHTML = rows.map(function(r){
-          return '<div class="review"><p class="rq">“' + nl2br(r.body) + '”</p>'
-               + '<div class="rm"><span>' + esc(r.label) + '</span>'
-               + '<span class="rd">' + rvDate(r.created_at) + '</span></div></div>';
-        }).join('');
+        rvList.innerHTML = rows.map(rvCard).join('');
         if(rvEmpty) rvEmpty.style.display = rows.length ? 'none' : 'block';
       })
       .catch(function(){
@@ -100,7 +174,65 @@ if($('reviews-list')){
         rvEmpty.style.display = 'block';
       });
   };
-  rvLoad();
+
+  /* 관리자로 보고 있다는 표시 — 손님에게는 아예 만들어지지 않는다 */
+  var rvBar = function(){
+    var bar = document.createElement('p');
+    bar.className = 'rvadmin';
+    bar.innerHTML = '<span>관리자로 보고 있습니다. 숨긴 후기도 함께 보입니다.</span>'
+                  + '<button type="button" id="rvOut">로그아웃</button>';
+    rvList.parentNode.insertBefore(bar, rvList);
+    $('rvOut').addEventListener('click', function(){ admSet('', ''); location.reload(); });
+  };
+
+  admIs().then(function(ok){
+    rvAdmin = ok;
+    if(ok) rvBar();
+    rvLoad();
+  });
+
+  /* 숨기기 · 지우기 — 관리자일 때만 버튼이 그려진다 */
+  rvList.addEventListener('click', function(e){
+    if(!rvAdmin) return;
+    var btn = e.target.closest('button'); if(!btn) return;
+    var card = btn.closest('.review'); if(!card) return;
+    var id  = card.getAttribute('data-id');
+    var act = btn.getAttribute('data-act');
+    if(!id) return;
+
+    if(act === 'hide' || act === 'show'){
+      btn.disabled = true;
+      fetch(SB_URL + '/rest/v1/sumshim_reviews?id=eq.' + id, {
+        method: 'PATCH',
+        headers: admHead({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ status: act === 'hide' ? 'hidden' : 'visible' })
+      }).then(function(r){
+        btn.disabled = false;
+        if(!r.ok) return;
+        rvLoad();
+      }).catch(function(){ btn.disabled = false; });
+      return;
+    }
+
+    /* 지우기는 되돌릴 수 없으므로 한 번 더 묻는다 */
+    if(act === 'del'){
+      btn.outerHTML = '<button type="button" class="del" data-act="del-yes">정말 지웁니다</button>'
+                    + '<button type="button" data-act="del-no">그만두기</button>';
+      return;
+    }
+    if(act === 'del-no'){ rvLoad(); return; }
+    if(act === 'del-yes'){
+      btn.disabled = true;
+      fetch(SB_URL + '/rest/v1/sumshim_reviews?id=eq.' + id, {
+        method: 'DELETE',
+        headers: admHead()
+      }).then(function(r){
+        btn.disabled = false;
+        if(!r.ok) return;
+        rvLoad();
+      }).catch(function(){ btn.disabled = false; });
+    }
+  });
 
   /* 확인 문제 — 열 때마다 숫자가 바뀐다 */
   var rvA = 2 + Math.floor(Math.random() * 7);
@@ -255,4 +387,85 @@ function submitVia(how){
 if($('applyForm')){
   $('applyForm').addEventListener('submit', function(e){ e.preventDefault(); submitVia('kakao'); });
   $('mailBtn').addEventListener('click', function(){ submitVia('mail'); });
+}
+
+/* ── 관리자 로그인 상자 (2026-08-24) ───────────────────────────────
+   꼬리말 맨 아래 「관리자」를 누르면 열립니다. 손님은 누를 일이 없고,
+   눌러도 이메일과 비밀번호를 모르면 아무것도 못 합니다.
+   로그인하면 그 자리에서 새로고침되고, 후기마다 버튼이 붙습니다. */
+if($('admModal')){
+  var admSign = false;
+
+  var admOpen = function(e){
+    if(e) e.preventDefault();
+    $('admModal').classList.add('on');
+    $('adm-em').focus();
+  };
+  var admShut = function(){ $('admModal').classList.remove('on'); };
+
+  if($('admLink')) $('admLink').addEventListener('click', admOpen);
+  $('admClose').addEventListener('click', admShut);
+  $('admModal').addEventListener('click', function(e){ if(e.target === this) admShut(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') admShut(); });
+
+  $('admToggle').addEventListener('click', function(){
+    admSign = !admSign;
+    $('admGo').textContent   = admSign ? '가입하기' : '로그인';
+    this.textContent         = admSign ? '이미 가입하셨나요? 로그인' : '처음이신가요? 가입하기';
+    $('adm-pw').autocomplete = admSign ? 'new-password' : 'current-password';
+    $('admHint').style.display = admSign ? '' : 'none';
+    $('admMsg').className = 'formmsg';
+  });
+
+  $('admForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var msg  = $('admMsg');
+    var show = function(kind, text){ msg.className = 'formmsg ' + kind; msg.textContent = text; };
+    var em = ($('adm-em').value || '').trim();
+    var pw = $('adm-pw').value || '';
+
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))
+      return show('err', '이메일 주소를 다시 확인해 주세요.');
+    if(pw.length < 6)
+      return show('err', '비밀번호는 여섯 글자 이상이어야 합니다.');
+
+    var btn = $('admGo'); btn.disabled = true;
+    show('ok', admSign ? '가입하는 중입니다…' : '들어가는 중입니다…');
+
+    var url = admSign ? '/auth/v1/signup' : '/auth/v1/token?grant_type=password';
+
+    fetch(SB_URL + url, {
+      method: 'POST',
+      headers: { apikey: SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: em, password: pw })
+    })
+    .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+    .then(function(res){
+      btn.disabled = false;
+
+      if(!res.ok){
+        var m = (res.j && (res.j.msg || res.j.error_description || res.j.message)) || '';
+        if(/Invalid login/i.test(m))
+          return show('err', '이메일이나 비밀번호가 맞지 않습니다.');
+        if(/already registered|already been registered/i.test(m))
+          return show('err', '이미 가입된 이메일입니다. 「로그인」으로 바꿔서 들어가세요.');
+        if(/Email not confirmed/i.test(m))
+          return show('err', '메일함에서 확인 메일을 한 번 눌러주셔야 합니다.');
+        return show('err', '들어가지 못했습니다. 잠시 뒤 다시 시도해 주세요.');
+      }
+
+      if(!res.j.access_token){
+        return show('ok', '가입되었습니다. 메일함에서 확인 메일을 한 번 눌러주신 뒤 로그인해 주세요.');
+      }
+
+      admSet(res.j.access_token, res.j.refresh_token || '');
+      $('adm-pw').value = '';
+      show('ok', '들어왔습니다. 화면을 새로 그립니다…');
+      location.reload();
+    })
+    .catch(function(){
+      btn.disabled = false;
+      show('err', '연결이 되지 않았습니다. 잠시 뒤 다시 시도해 주세요.');
+    });
+  });
 }
