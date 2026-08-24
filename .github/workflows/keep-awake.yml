@@ -1,0 +1,43 @@
+# 후기 보관함(Supabase) 깨우기
+#
+# 왜 필요한가
+#   숨쉼 후기는 Supabase 무료 통에 들어 있는데, 무료 통은 이레 동안
+#   아무도 안 두드리면 잠듭니다. 잠들면 홈페이지 후기칸이 안 열립니다.
+#   그래서 하루 한 번 여기서 대신 두드려 줍니다.
+#
+#   홈페이지에 손님이 들어오기만 해도 깨어나지만, 새 홈페이지라
+#   이레 내내 아무도 안 들어오는 주가 생길 수 있어 안전장치로 둡니다.
+#
+# 열쇠를 그냥 적어둔 이유
+#   아래 열쇠는 홈페이지 site.js 에도 그대로 들어 있는 공개용입니다.
+#   이 열쇠로는 보이는 후기를 읽는 것밖에 못 합니다. 숨기거나 지우는 건
+#   관리자로 로그인해야만 됩니다(데이터베이스 규칙으로 막혀 있음).
+#
+# ⚠️ 알아둘 것
+#   GitHub 은 예순 날 동안 저장소에 아무 변화가 없으면 이 자동 실행을
+#   꺼버리고 주인에게 메일을 보냅니다. 그런 메일이 오면 이 파일의
+#   Actions 탭에서 다시 켜주면 됩니다.
+
+name: 후기 보관함 깨우기
+
+on:
+  schedule:
+    # 매일 한국시간 낮 12시 17분 (UTC 03:17)
+    - cron: '17 3 * * *'
+  workflow_dispatch:        # 손으로도 한 번 돌려볼 수 있게
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Supabase 한 번 두드리기
+        run: |
+          code=$(curl -sS -o /dev/null -w '%{http_code}' \
+            'https://ybtxwywqhirltloinfju.supabase.co/rest/v1/sumshim_reviews?select=id&limit=1' \
+            -H 'apikey: sb_publishable_svvJEf4Obdq24Z4dMsqurw_f_dDRU17')
+          echo "응답 코드: $code"
+          if [ "$code" != "200" ]; then
+            echo "::error::후기 보관함이 응답하지 않습니다 (코드 $code). 잠들었거나 설정이 바뀌었을 수 있습니다."
+            exit 1
+          fi
+          echo "깨어 있습니다."
