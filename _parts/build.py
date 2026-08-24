@@ -199,10 +199,21 @@ def build():
     with io.open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
         f.write(sm)
     with io.open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
-        f.write("User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE)
+        f.write("User-agent: *\nAllow: /\nDisallow: /manage/\n\nSitemap: %s/sitemap.xml\n" % SITE)
+
+    # 후기 관리 화면 — 메뉴에도 검색에도 없는 숨은 한 장.
+    # 원본은 _parts/manage.html 이고, 여기서 manage/index.html 로 옮겨 놓는다.
+    mdir = os.path.join(ROOT, "manage")
+    if not os.path.isdir(mdir):
+        os.makedirs(mdir)
+    with io.open(os.path.join(HERE, "manage.html"), encoding="utf-8") as f:
+        mhtml = f.read()
+    with io.open(os.path.join(mdir, "index.html"), "w", encoding="utf-8", newline="\r\n") as f:
+        f.write(mhtml)
 
     for name, n in made:
         print("%-18s %6d bytes" % (name, n))
+    print("%-18s %6d bytes" % ("manage/index.html", len(mhtml)))
     print("sitemap.xml, robots.txt")
 
 if __name__ == "__main__":

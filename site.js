@@ -13,8 +13,9 @@
 
 /* ═══════════════════════════════════════════════════════════════
    글은 전부 이 파일 안에 있습니다.
-   후기·칼럼을 추가하려면 아래 REVIEWS / COLUMNS 에 한 칸씩 더 쓰면 됩니다.
-   (관리자가 화면에서 직접 쓰는 기능은 서버 연결이 필요합니다 — 읽어보기.txt 참고)
+   칼럼을 추가하려면 아래 COLUMNS 에 한 칸씩 더 쓰면 됩니다.
+   후기는 2026-08-24 부터 홈페이지에서 직접 받습니다. 이 파일이 아니라
+   Supabase 보관함에 쌓이고, 숨기거나 지우는 것은 manage 페이지에서 합니다.
    ═══════════════════════════════════════════════════════════════ */
 
 var STEPS = [
@@ -40,13 +41,6 @@ var WHO = [
   '내가 어떤 사람인지 좀 더 깊이 이해하고 싶은 분'
 ];
 
-/* 후기 — 공개 동의를 받은 것만, 개인이 드러나지 않는 범위로 */
-var REVIEWS = [
-  ['왜 자꾸 같은 자리에서 걸려 넘어지는지 처음으로 설명이 됐어요. 답을 들은 게 아니라 제가 알게 된 느낌이었습니다.','30대 · 개인상담'],
-  ['상담을 받으면 마음이 편해지는 줄만 알았는데, 편해지기 전에 이해되는 게 먼저더라고요.','20대 · 개인상담'],
-  ['말로는 도저히 안 나오던 게 그림으로는 나왔습니다. 잘 그릴 필요 없다는 말이 정말이었어요.','40대 · 미술치료']
-];
-
 /* 마음읽기 — 칼럼 */
 var COLUMNS = [
   ['머리로는 아는데 마음이 따라오지 않을 때','2026.08.10',
@@ -68,9 +62,98 @@ if($('steps')) $('steps').innerHTML = STEPS.map(function(s){
 
 if($('who-list')) $('who-list').innerHTML = WHO.map(function(w){ return '<li>'+esc(w)+'</li>'; }).join('');
 
-if($('reviews-list')) $('reviews-list').innerHTML = REVIEWS.map(function(r){
-  return '<div class="review"><p class="rq">“'+esc(r[0])+'”</p><div class="rm">'+esc(r[1])+'</div></div>';
-}).join('');
+/* ── 후기 (2026-08-24) ─────────────────────────────────────────────
+   후기는 이제 방문하신 분이 홈페이지에서 직접 남깁니다.
+   글은 Supabase 보관함에 쌓이고 새로고침하면 바로 보입니다.
+   숨기거나 지우는 것은 관리 화면(sumshim.co.kr/manage)에서만 됩니다.
+   아래 두 줄은 공개용 열쇠라 홈페이지에 들어 있어도 안전합니다. */
+var SB_URL = 'https://ybtxwywqhirltloinfju.supabase.co';
+var SB_KEY = 'sb_publishable_svvJEf4Obdq24Z4dMsqurw_f_dDRU17';
+
+function nl2br(s){ return esc(s).replace(/\n/g, '<br>'); }
+function rvDate(iso){
+  var d = new Date(iso); if(isNaN(d.getTime())) return '';
+  var p = function(n){ return (n < 10 ? '0' : '') + n; };
+  return d.getFullYear() + '.' + p(d.getMonth()+1) + '.' + p(d.getDate());
+}
+
+if($('reviews-list')){
+  var rvList  = $('reviews-list');
+  var rvEmpty = $('reviews-empty');
+
+  var rvLoad = function(){
+    fetch(SB_URL + '/rest/v1/sumshim_reviews'
+        + '?select=body,label,created_at&status=eq.visible&order=created_at.desc&limit=30',
+      { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } })
+      .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(rows){
+        rvList.innerHTML = rows.map(function(r){
+          return '<div class="review"><p class="rq">“' + nl2br(r.body) + '”</p>'
+               + '<div class="rm"><span>' + esc(r.label) + '</span>'
+               + '<span class="rd">' + rvDate(r.created_at) + '</span></div></div>';
+        }).join('');
+        if(rvEmpty) rvEmpty.style.display = rows.length ? 'none' : 'block';
+      })
+      .catch(function(){
+        if(!rvEmpty) return;
+        rvEmpty.textContent = '후기를 불러오지 못했습니다. 잠시 뒤 새로고침해 주세요.';
+        rvEmpty.style.display = 'block';
+      });
+  };
+  rvLoad();
+
+  /* 확인 문제 — 열 때마다 숫자가 바뀐다 */
+  var rvA = 2 + Math.floor(Math.random() * 7);
+  var rvB = 2 + Math.floor(Math.random() * 7);
+  if($('rv-q')) $('rv-q').textContent = rvA + ' + ' + rvB + ' = ?';
+
+  if($('rvForm')) $('rvForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var msg  = $('rvMsg');
+    var show = function(kind, text){ msg.className = 'formmsg ' + kind; msg.textContent = text; };
+    var body  = ($('rv-body').value  || '').trim();
+    var label = ($('rv-label').value || '').trim();
+
+    /* 사람에게 안 보이는 칸이 채워졌다 = 광고 프로그램. 조용히 버린다 */
+    if($('rv-web').value) return;
+
+    if(body.length < 10)  return show('err', '후기를 열 글자 이상 적어주세요.');
+    if(/https?:\/\/|www\./i.test(body))
+                          return show('err', '링크는 넣을 수 없습니다. 링크를 빼고 다시 올려주세요.');
+    if(label.length < 2)  return show('err', '어떻게 표기할지 적어주세요. 예: 30대 · 개인상담');
+    if(parseInt(($('rv-sum').value || '').replace(/[^0-9]/g, ''), 10) !== rvA + rvB)
+                          return show('err', '확인 문제의 답이 맞지 않습니다.');
+    if(!$('rv-agree').checked)
+                          return show('err', '홈페이지 공개에 동의해 주셔야 올릴 수 있습니다.');
+
+    var last = 0;
+    try{ last = parseInt(localStorage.getItem('sumshim_rv') || '0', 10) || 0; }catch(_){}
+    if(Date.now() - last < 5 * 60 * 1000)
+      return show('err', '방금 후기를 남기셨습니다. 5분 뒤에 다시 시도해 주세요.');
+
+    var btn = $('rvSend'); btn.disabled = true;
+    show('ok', '올리는 중입니다…');
+
+    fetch(SB_URL + '/rest/v1/sumshim_reviews', {
+      method: 'POST',
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY,
+                 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify({ body: body, label: label, agreed: true })
+    })
+    .then(function(r){
+      btn.disabled = false;
+      if(!r.ok) return show('err', '올리지 못했습니다. 내용을 조금 고쳐서 다시 시도해 주세요.');
+      try{ localStorage.setItem('sumshim_rv', String(Date.now())); }catch(_){}
+      $('rvForm').reset();
+      show('ok', '후기를 남겨주셔서 감사합니다. 바로 아래에 올라갔습니다.');
+      rvLoad();
+    })
+    .catch(function(){
+      btn.disabled = false;
+      show('err', '연결이 되지 않았습니다. 잠시 뒤 다시 시도해 주세요.');
+    });
+  });
+}
 
 if($('column-list')) $('column-list').innerHTML = COLUMNS.map(function(c,i){
   return '<article class="post" data-i="'+i+'" tabindex="0" role="button" aria-expanded="false">'

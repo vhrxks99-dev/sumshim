@@ -349,3 +349,23 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 .waygrid figcaption{padding:11px 14px;border-top:1px solid var(--mist);background:#fff;
   font-size:13.5px;color:var(--ink-soft);line-height:1.7}
 @media (max-width:700px){ .waygrid{grid-template-columns:1fr;gap:14px} }
+
+/* ── 후기 남기기 (2026-08-24) ──────────────────────────────────── */
+.review .rm{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.review .rd{color:#9AA8B1;font-variant-numeric:tabular-nums}
+
+.rvform{margin-top:34px;border:1px solid var(--mist);border-radius:12px;
+  background:var(--surface);max-width:700px}
+.rvform>summary{cursor:pointer;list-style:none;padding:18px 26px;
+  font-size:15px;font-weight:500;color:var(--sky-deep);display:flex;align-items:center;gap:9px}
+.rvform>summary::-webkit-details-marker{display:none}
+.rvform>summary::before{content:"＋";font-size:17px;line-height:1;color:var(--sky)}
+.rvform[open]>summary::before{content:"－"}
+.rvform>summary:hover{background:var(--ivory);border-radius:12px}
+.rvform[open]>summary{border-bottom:1px solid var(--mist);border-radius:12px 12px 0 0}
+.rvform .form{padding:26px;max-width:none}
+.rvform textarea{min-height:130px}
+
+/* 사람에게는 보이지 않는 칸 — 광고 프로그램만 여기를 채운다.
+   display:none 은 일부 프로그램이 눈치채므로 화면 밖으로 밀어낸다 */
+.rvtrap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
