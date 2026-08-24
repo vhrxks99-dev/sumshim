@@ -105,9 +105,6 @@ def menu_html(current):
     label, href, active_on = CTA
     cls = "cta on" if active_on == current else "cta"
     out.append('      <a href="%s" class="%s">%s</a>' % (href, cls, label))
-    # 관리자 — 원장님만 씁니다. 누르면 로그인 상자가 뜨고,
-    # 로그인해 있으면 이 자리가 「로그아웃」으로 바뀝니다(site.js).
-    out.append('      <button type="button" class="admbtn" id="admBtn">관리자</button>')
     return "\n".join(out)
 
 

@@ -388,16 +388,8 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 .rvadmin button{font-family:inherit;font-size:13px;padding:6px 12px;border-radius:7px;
   border:1px solid var(--mist);background:#fff;color:var(--ink);cursor:pointer}
 
-/* 메뉴 맨 오른쪽 「관리자」 — 원장님만 쓰는 자리 */
-.admbtn{font-family:inherit;font-size:13.5px;font-weight:400;color:var(--ink-soft);
-  background:none;border:1px solid var(--mist);border-radius:7px;padding:8px 13px;
-  margin-left:6px;cursor:pointer;white-space:nowrap;
-  transition:color .18s ease,background .18s ease,border-color .18s ease}
-.admbtn:hover{color:var(--sky-deep);background:var(--sky-soft);border-color:var(--sky)}
-.admbtn.on{color:var(--sky-deep);border-color:var(--sky)}
-@media (max-width:1000px){
-  .admbtn{width:100%;margin:10px 0 0;padding:13px;font-size:15px}
-}
+/* 「관리자」는 꼬리말 「상담 신청」 옆에 둔다 — 다른 꼬리말 링크와 똑같은 모양이라
+   따로 줄 스타일이 없다(2026-08-24 원장 지시로 메뉴에서 여기로 옮김). */
 
 /* 관리자 로그인 상자 */
 .modal .admbox{max-width:460px}

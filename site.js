@@ -407,16 +407,15 @@ if($('admModal')){
   };
   var admShut = function(){ $('admModal').classList.remove('on'); };
 
-  /* 메뉴 맨 오른쪽 「관리자」 버튼.
-     로그인해 있으면 이 자리가 「로그아웃」이 된다. */
-  if($('admBtn')) admIs().then(function(ok){
-    var b = $('admBtn');
+  /* 꼬리말 「상담 신청」 옆 「관리자」.
+     로그인해 있으면 그 자리가 「로그아웃」이 된다. */
+  if($('admLink')) admIs().then(function(ok){
+    var a = $('admLink');
     if(ok){
-      b.textContent = '로그아웃';
-      b.classList.add('on');
-      b.addEventListener('click', function(){ admSet('', ''); location.reload(); });
+      a.textContent = '로그아웃';
+      a.addEventListener('click', function(e){ e.preventDefault(); admSet('', ''); location.reload(); });
     }else{
-      b.addEventListener('click', admOpen);
+      a.addEventListener('click', admOpen);
     }
   });
 
