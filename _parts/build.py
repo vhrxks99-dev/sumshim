@@ -63,7 +63,7 @@ PAGES = [
       desc="성인 개인 심리상담 1회 50분 80,000원. 첫 상담에서 어려움을 함께 살펴본 뒤 상담 방향을 정합니다. 심리상담·미술치료 약 10년 김민정 상담사.",
       ogt="상담 안내 · 상담사 소개 — 쉬는숨쉬는쉼 상담센터",
       ogd="첫 상담에서 지금의 어려움을 함께 살펴본 뒤, 상담 방향을 같이 정합니다.",
-      body=["guide", "counselor"],
+      body=["guide", "room", "counselor"],
       cta=True),
 
  dict(file="art.html",
