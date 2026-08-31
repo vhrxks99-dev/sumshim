@@ -283,6 +283,30 @@ footer .fl{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px}
 footer a{color:var(--sky-deep)}
 .biz{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:6px}
 
+/* ── 푸터 연락 버튼 ───────────────────────────────────────────
+   전화·메일은 '읽는 정보'가 아니라 '누르는 행동'이다.
+   밑줄만으로는 눌린다는 게 안 보여서 버튼으로 세웠다(원장 지시 2026-08-31).
+   높이 46px 이상 — 손가락으로 눌리는 최소 크기. */
+.fcall{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.fcall-btn{
+  display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  padding:13px 20px;border-radius:10px;border:1px solid var(--mist);background:#fff;
+  color:var(--ink);font-size:14px;line-height:1.4;
+  transition:border-color .18s ease,background .18s ease,transform .18s ease;
+}
+.fcall-btn svg{width:18px;height:18px;flex:none;color:var(--sky-deep)}
+.fcall-btn b{font-weight:600}
+.fcall-btn .num{color:var(--ink-soft);font-size:13.5px;letter-spacing:.01em}
+.fcall-btn:hover{border-color:var(--sky);background:var(--sky-soft);transform:translateY(-1px)}
+.fcall-btn.is-call{background:var(--sky-deep);border-color:var(--sky-deep);color:#fff}
+.fcall-btn.is-call svg{color:#fff}
+.fcall-btn.is-call .num{color:rgba(255,255,255,.86)}
+.fcall-btn.is-call:hover{background:var(--sky-deeper);border-color:var(--sky-deeper)}
+@media(max-width:560px){
+  .fcall{flex-direction:column;gap:8px}
+  .fcall-btn{width:100%;justify-content:center}
+}
+
 /* ── 블로그·인스타그램 ────────────────────────────────────────── */
 .sns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
 .sns a{
@@ -408,3 +432,8 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
    660px 에 제목을 가두니 "살펴본 / 뒤," 처럼 문장 끝이 다음 줄로 떨어졌다.
    h1~h3 의 word-break:keep-all 과 같이 쓰면 낱말도 안 잘리고 문장도 안 끊긴다. */
 .wide-line{max-width:none}
+
+/* ═══ 2026-08-27 UX: 모바일에서 입력칸 글씨 16px — iOS 자동 확대 방지 ═══ */
+@media (max-width:820px){
+  input:not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px}
+}
