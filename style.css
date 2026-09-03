@@ -327,7 +327,10 @@ footer a{color:var(--sky-deep)}
    전화·메일은 '읽는 정보'가 아니라 '누르는 행동'이다.
    밑줄만으로는 눌린다는 게 안 보여서 버튼으로 세웠다(원장 지시 2026-08-31).
    높이 46px 이상 — 손가락으로 눌리는 최소 크기. */
-.fcall{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+/* 네 칸을 똑같은 크기로 놓는다(원장 지시 2026-09-03).
+   전에는 글자 길이만큼 늘어나 네 개가 제각각이었다. 번호·주소는 뺐다 —
+   눌러서 걸거나 열면 되고, 연락처는 '오시는 길'에도 적혀 있다. */
+.fcall{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:20px}
 .fcall-btn{
   display:inline-flex;align-items:center;gap:10px;text-decoration:none;
   padding:13px 20px;border-radius:10px;border:1px solid var(--mist);background:#fff;
@@ -335,6 +338,7 @@ footer a{color:var(--sky-deep)}
   transition:border-color .18s ease,background .18s ease,transform .18s ease;
 }
 .fcall-btn svg{width:18px;height:18px;flex:none;color:var(--sky-deep)}
+.fcall-btn{justify-content:center}
 .fcall-btn b{font-weight:600}
 .fcall-btn .num{color:var(--ink-soft);font-size:13.5px;letter-spacing:.01em}
 .fcall-btn:hover{border-color:var(--sky);background:var(--sky-soft);transform:translateY(-1px)}
@@ -343,21 +347,11 @@ footer a{color:var(--sky-deep)}
 .fcall-btn.is-call .num{color:rgba(255,255,255,.86)}
 .fcall-btn.is-call:hover{background:var(--sky-deeper);border-color:var(--sky-deeper)}
 @media(max-width:560px){
-  .fcall{flex-direction:column;gap:8px}
-  .fcall-btn{width:100%;justify-content:center}
+  .fcall{grid-template-columns:1fr;gap:8px}
+  .fcall-btn{width:100%}
 }
 
-/* ── 블로그·인스타그램 ────────────────────────────────────────── */
-.sns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
-.sns a{
-  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
-  font-size:14px;font-weight:400;color:var(--ink);
-  padding:11px 17px;border:1px solid var(--mist);border-radius:9px;background:#fff;
-  transition:border-color .18s ease,background .18s ease;
-}
-.sns a:hover{border-color:var(--sky);background:var(--sky-soft)}
-.sns svg{width:17px;height:17px;flex:none;color:var(--sky-deep)}
-.sns .h{color:var(--ink-soft);font-size:13px}
+/* 블로그·인스타그램 칸은 꼬리말 네 칸(.fcall)으로 합쳤다(2026-09-03) */
 
 /* ── 모달 ─────────────────────────────────────────────────────── */
 .modal{position:fixed;inset:0;background:rgba(36,49,58,.5);z-index:100;display:none;padding:24px;overflow:auto}
