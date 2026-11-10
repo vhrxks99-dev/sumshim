@@ -542,3 +542,12 @@ h1,h2,h3,p,li,.hint,.lead,figcaption,.card .s{text-wrap:pretty}
   h2,h1:not(.hero-line){margin-bottom:26px}
   .wrap{padding:0 22px}
 }
+
+/* ═══ 버튼 줄 (2026-11-10 원장님 지적: 두 버튼이 폭도 다르고 딱 붙어 있었다) ═══
+   넓은 화면은 나란히 간격 두고, 휴대폰은 같은 폭으로 위아래 정렬. */
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btns .btn{text-align:center}
+@media (max-width:600px){
+  .btns{flex-direction:column;gap:10px}
+  .btns .btn{width:100%}
+}
