@@ -357,16 +357,10 @@ document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
 var heroEl = document.querySelector('.hero');
 if(heroEl) requestAnimationFrame(function(){ heroEl.classList.add('play'); });
 
-/* 첫 화면 영상 — 움직임 줄이기 설정이면 처음부터 멈춰 두고, 버튼으로 멈춤/재생 */
-var hv = document.querySelector('.hero-video'), hp = $('heroPause');
-if(hv && hp){
-  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function hvSet(play){
-    if(play){ var p = hv.play(); if(p && p.catch) p.catch(function(){}); hp.textContent='멈춤'; hp.setAttribute('aria-label','배경 영상 멈추기'); }
-    else { hv.pause(); hp.textContent='재생'; hp.setAttribute('aria-label','배경 영상 재생'); }
-  }
-  if(still){ hv.removeAttribute('autoplay'); hvSet(false); }
-  hp.addEventListener('click', function(){ hvSet(hv.paused); });
+/* 첫 화면 영상 — 움직임 줄이기 설정이면 멈춰 둔다 (멈춤 버튼은 원장님 지시로 뺐다, 11/10) */
+var hv = document.querySelector('.hero-video');
+if(hv && window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+  hv.removeAttribute('autoplay'); hv.pause();
 }
 
 /* 개인정보처리방침 */
