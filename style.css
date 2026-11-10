@@ -4,15 +4,15 @@
    상담안내부터 다시 밝아진다. 증상 → 그 아래의 이유 → 다시 삶.
    ═══════════════════════════════════════════════════════════════ */
 :root{
-  --surface:#FCFBF8;      /* 오프화이트 — 기본 바탕 */
-  --ivory:#F4EFE6;        /* 아이보리 — 숨 쉬는 여백 블록 */
-  --sky:#7FB0CC;          /* 하늘색 — 맑고 차분하게, 쨍하지 않게 */
-  --sky-soft:#EAF2F7;     /* 옅은 하늘 */
-  --sky-deep:#3A6E8C;     /* 깊은 물 — 철학 섹션 */
-  --sky-deeper:#2C566D;
-  --ink:#24313A;          /* 본문 — 순검정 아님 */
-  --ink-soft:#5A6B76;
-  --mist:#DCE6EB;         /* 옅은 블루그레이 — 선 */
+  --surface:#F1EFE7;      /* 오프화이트 — 기본 바탕 */
+  --ivory:#E8E2D3;        /* 아이보리 — 숨 쉬는 여백 블록 */
+  --sky:#93A68F;          /* 하늘색 — 맑고 차분하게, 쨍하지 않게 */
+  --sky-soft:#E2E7DB;     /* 옅은 하늘 */
+  --sky-deep:#4F6150;     /* 깊은 물 — 철학 섹션 */
+  --sky-deeper:#3E4D3F;
+  --ink:#2B302A;          /* 본문 — 순검정 아님 */
+  --ink-soft:#5F675C;
+  --mist:#D9D4C4;         /* 옅은 블루그레이 — 선 */
   --maxw:1120px;
   --read:660px;           /* 글을 천천히 읽는 너비 */
 }
@@ -23,7 +23,7 @@ body{
   margin:0;background:var(--surface);color:var(--ink);
   font-family:'IBM Plex Sans KR',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
   font-weight:300;font-size:17px;line-height:1.95;letter-spacing:-.01em;
-  -webkit-font-smoothing:antialiased;
+  -webkit-font-smoothing:antialiased;word-break:keep-all;
 }
 img{max-width:100%;display:block}
 a{color:inherit}
@@ -38,7 +38,7 @@ a{color:inherit}
   font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
   color:var(--sky-deep);margin:0 0 22px;
 }
-.band--deep .eyebrow{color:#9FC6DA}
+.band--deep .eyebrow{color:#C9D6C4}
 /* word-break:keep-all — 한글은 그냥 두면 낱말 한가운데서 잘린다.
    ("후기입니 / 다." 처럼 끝 글자만 다음 줄로 떨어지던 것을 2026-08-24 에 고침)
    어절 단위로 넘어가게 해서 줄이 바뀌더라도 말이 안 끊긴다. */
@@ -53,118 +53,176 @@ p{margin:0 0 22px}
 /* ── 깊이 밴드 ────────────────────────────────────────────────── */
 .band--ivory{background:var(--ivory)}
 .band--sky{background:var(--sky-soft)}
-.band--deep{background:var(--sky-deep);color:#EAF2F7}
+.band--deep{background:var(--sky-deep);color:#EEF2EA}
 .band--deep h2,.band--deep h3{color:#fff}
-.band--deep .muted{color:#B6CEDC}
-.band--deeper{background:var(--sky-deeper);color:#EAF2F7}
+.band--deep h3{margin-bottom:10px}
+.band--deep .muted{color:#C4D0BF}
+.band--deeper{background:var(--sky-deeper);color:#EEF2EA}
 .band--deeper h2{color:#fff}
 
-/* ── 헤더 ─────────────────────────────────────────────────────── */
-header{
-  position:sticky;top:0;z-index:60;background:rgba(252,251,248,.92);
-  backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--mist);
-}
-.nav{display:flex;align-items:center;gap:20px;height:70px}
-.brand{font-family:'Gowun Batang',serif;font-size:19px;letter-spacing:-.03em;text-decoration:none;white-space:nowrap}
+/* ── 헤더 (2026-11-10 새로) ─────────────────────────────────────
+   넓은 화면: 글자만 있는 메뉴, 지금 페이지는 밑줄. 상담 신청만 테두리 버튼.
+   홈(.over): 영상 위에 투명하게 떠 있다가 조금 내려가면(.solid) 바탕이 생긴다.
+   좁은 화면: 두 줄 버튼 → 화면 전체를 덮는 메뉴, 큰 명조 글씨. */
+header{position:sticky;top:0;z-index:60;background:rgba(241,239,231,.94);
+  backdrop-filter:saturate(150%) blur(10px);-webkit-backdrop-filter:saturate(150%) blur(10px);
+  border-bottom:1px solid var(--mist);transition:background .3s ease,border-color .3s ease,color .3s ease}
+.nav{display:flex;align-items:center;gap:24px;height:76px}
+.brand{font-family:'Gowun Batang',serif;font-size:21px;letter-spacing:-.03em;text-decoration:none;white-space:nowrap;position:relative;z-index:3}
 .brand span{color:var(--sky-deep)}
-.menu{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
-.menu a{
-  text-decoration:none;font-size:14px;font-weight:400;color:var(--ink-soft);
-  padding:9px 12px;border-radius:7px;white-space:nowrap;
-  transition:color .18s ease,background .18s ease;
-}
-.menu a:hover{color:var(--sky-deep);background:var(--sky-soft)}
-.menu a.cta{background:var(--sky-deep);color:#fff;font-weight:500}
-.menu a.cta:hover{background:#24485C}
-.burger{display:none;margin-left:auto;background:none;border:1px solid var(--mist);
-  border-radius:8px;padding:9px 13px;font-size:14px;cursor:pointer;color:var(--ink);font-family:inherit}
+.menu{margin-left:auto;display:flex;align-items:center;gap:6px}
+.menu a{text-decoration:none;font-size:14.5px;font-weight:400;color:var(--ink);
+  padding:8px 10px;position:relative;white-space:nowrap;transition:color .18s ease}
+.menu a::after{content:"";position:absolute;left:10px;right:10px;bottom:2px;height:1px;background:currentColor;
+  transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.menu a:hover::after,.menu a.on::after{transform:scaleX(1)}
+.menu a.on{color:var(--sky-deep)}
+.menu a.cta{margin-left:10px;border:1px solid currentColor;border-radius:30px;padding:8px 20px;color:var(--sky-deep);font-weight:500}
+.menu a.cta::after{display:none}
+.menu a.cta:hover,.menu a.cta.on{background:var(--sky-deep);border-color:var(--sky-deep);color:#fff}
+.menu-foot{display:none}
+
+/* 홈 — 영상 위 */
+header.over{position:fixed;left:0;right:0;background:transparent;border-color:transparent;color:#fff;
+  backdrop-filter:none;-webkit-backdrop-filter:none}
+header.over .brand span{color:#DDE7D8}
+header.over .menu a{color:rgba(255,255,255,.92)}
+header.over .menu a.cta{color:#fff}
+header.over .menu a.cta:hover{background:#fff;border-color:#fff;color:var(--sky-deeper)}
+header.over.solid{background:rgba(241,239,231,.94);border-color:var(--mist);color:var(--ink);
+  backdrop-filter:saturate(150%) blur(10px);-webkit-backdrop-filter:saturate(150%) blur(10px)}
+header.over.solid .brand span{color:var(--sky-deep)}
+header.over.solid .menu a{color:var(--ink)}
+header.over.solid .menu a.cta{color:var(--sky-deep)}
+header.over.solid .menu a.cta:hover{background:var(--sky-deep);border-color:var(--sky-deep);color:#fff}
+
+.burger{display:none;margin-left:auto;position:relative;z-index:3;width:44px;height:44px;
+  background:none;border:0;cursor:pointer;color:inherit;padding:0}
+.burger i{position:absolute;left:11px;right:11px;height:1.5px;background:currentColor;transition:transform .3s ease,top .3s ease}
+.burger i:first-child{top:17px}
+.burger i:last-child{top:26px}
+.burger[aria-expanded="true"] i:first-child{top:21px;transform:rotate(45deg)}
+.burger[aria-expanded="true"] i:last-child{top:21px;transform:rotate(-45deg)}
+
 @media (max-width:1000px){
-  .menu{display:none;position:absolute;left:0;right:0;top:70px;background:var(--surface);
-    border-bottom:1px solid var(--mist);flex-direction:column;padding:12px 20px 20px;gap:0}
-  .menu.open{display:flex}
-  .menu a{padding:13px 4px;font-size:16px;border-radius:0}
-  .menu a.cta{margin-top:10px;border-radius:8px;text-align:center;padding:14px}
+  .nav{height:64px}
   .burger{display:block}
+  .menu{position:fixed;inset:0;z-index:2;margin:0;background:var(--ivory);color:var(--ink);
+    flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:90px 32px 40px;
+    opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s}
+  .menu.open{opacity:1;visibility:visible;transition:opacity .3s ease}
+  .menu a,header.over .menu a,header.over.solid .menu a{color:var(--ink);font-family:'Gowun Batang',serif;
+    font-size:clamp(24px,6.5vw,30px);padding:8px 0;letter-spacing:-.02em}
+  .menu a::after{left:0;right:auto;width:100%;bottom:6px}
+  .menu a.on,header.over .menu a.on{color:var(--sky-deep)}
+  .menu a.cta,header.over .menu a.cta,header.over.solid .menu a.cta{margin:22px 0 0;font-family:inherit;font-size:16px;
+    padding:13px 30px;color:#fff;background:var(--sky-deep);border-color:var(--sky-deep)}
+  .menu-foot{display:block;margin:34px 0 0;font-size:14px;color:var(--ink-soft)}
+  .menu-foot a,header.over .menu .menu-foot a{font-family:inherit;font-size:14px;padding:0;color:var(--sky-deep)}
+  .menu-foot a::after{display:none}
+  header.menu-open .brand,header.menu-open .burger{color:var(--ink)}
+  header.menu-open .brand span{color:var(--sky-deep)}
 }
 
-/* ── HERO — 질문에서 이해로 ───────────────────────────────────── */
-.hero{padding:120px 0 108px;position:relative;overflow:hidden}
-.hero::after{ /* 아주 옅은 하늘 — 위쪽 공기 */
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;
-  background:radial-gradient(120% 78% at 50% -18%, #E4EFF5 0%, rgba(228,239,245,0) 62%);
-}
-/* 글 왼쪽, 상담사 오른쪽. 좁아지면 사진이 글 아래로 내려간다. */
-.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:48px;align-items:center}
-.hero-photo{
-  margin:0;position:relative;justify-self:center;
-  opacity:0;transform:translateY(18px) scale(.985);
-}
-.hero-photo::before{ /* 인물 뒤 옅은 하늘빛 — 사진과 배경을 잇는다 */
-  content:'';position:absolute;z-index:0;left:6%;right:6%;top:4%;bottom:14%;
-  border-radius:50%;
-  background:radial-gradient(60% 55% at 50% 45%, #E4EFF5 0%, rgba(228,239,245,0) 72%);
-}
-.hero-photo img{
-  position:relative;z-index:1;display:block;width:100%;max-width:400px;height:auto;
-  /* 아래쪽은 배경으로 스며들게 — 잘린 느낌을 없앤다 */
-  -webkit-mask-image:linear-gradient(to bottom,#000 78%,rgba(0,0,0,0) 99%);
-          mask-image:linear-gradient(to bottom,#000 78%,rgba(0,0,0,0) 99%);
-}
-.hero-photo figcaption{
-  position:relative;z-index:1;margin-top:-6px;text-align:center;
-  font-size:14px;color:var(--ink-soft);line-height:1.7;
-}
-.hero-photo figcaption b{font-weight:600;color:var(--ink);font-size:15px}
-.hero-photo figcaption span{display:block;font-size:13px}
-.play .hero-photo{animation:rise 1.5s cubic-bezier(.22,.75,.3,1) forwards;animation-delay:3s}
-@media (max-width:900px){
-  .hero-grid{grid-template-columns:1fr;gap:30px}
-  .hero-photo{order:2;max-width:280px;justify-self:start}
-  .hero-photo img{max-width:280px}
-  .hero-photo figcaption{text-align:left}
-}
-
-.qs{margin:0 0 40px;max-width:var(--read)}
-.q{
-  font-family:'Gowun Batang',serif;font-size:clamp(19px,2.5vw,25px);line-height:1.95;
-  color:var(--ink-soft);margin:0 0 6px;opacity:0;transform:translateY(9px);
-}
-.q b{font-weight:400;color:var(--sky-deep)}
-.hero-line{
-  font-family:'Gowun Batang',serif;font-size:clamp(30px,5vw,52px);line-height:1.5;
-  letter-spacing:-.035em;margin:0 0 30px;max-width:10.4em;opacity:0;transform:translateY(12px);
-}
-.hero-sub{max-width:var(--read);opacity:0;transform:translateY(12px)}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:38px;opacity:0;transform:translateY(12px)}
-.play .q,.play .hero-line,.play .hero-sub,.play .hero-actions{
-  animation:rise .9s cubic-bezier(.22,.75,.3,1) forwards;
-}
-.play .q:nth-child(1){animation-delay:.15s}
-.play .q:nth-child(2){animation-delay:.75s}
-.play .q:nth-child(3){animation-delay:1.35s}
-.play .hero-line{animation-delay:2.1s}
-.play .hero-sub{animation-delay:2.4s}
-.play .hero-actions{animation-delay:2.6s}
+/* ── HERO — 화면 가득 영상 한 장면 (2026-11-10 리빌딩) ───────────────
+   영상 위에 어두운 막을 깔고 흰 글자를 왼쪽 아래에 둔다.
+   영상이 안 뜨는 환경(절전·데이터 절약)에서는 poster 사진이 같은 자리를 채운다. */
+.hero{position:relative;overflow:hidden;color:#fff;
+  min-height:calc(100svh - 76px);display:flex;align-items:flex-end;background:#2E3A2F}
+header.over + .hero{min-height:100svh}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.hero-veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(24,34,41,.42) 0%,rgba(24,34,41,0) 150px),
+    linear-gradient(180deg,rgba(24,34,41,.10) 0%,rgba(24,34,41,.28) 45%,rgba(24,34,41,.72) 100%)}
+.hero-in{position:relative;z-index:1;width:100%;padding-bottom:clamp(64px,11vh,120px)}
+.hero-line{font-family:'Gowun Batang',serif;font-weight:400;color:#fff;
+  font-size:clamp(32px,5.4vw,60px);line-height:1.42;letter-spacing:-.035em;margin:0 0 22px;max-width:11em;
+  text-shadow:0 2px 24px rgba(10,20,26,.35);opacity:0;transform:translateY(12px)}
+.hero-sub{word-break:keep-all;font-size:clamp(16px,1.6vw,18.5px);color:rgba(255,255,255,.9);margin:0;max-width:34em;
+  opacity:0;transform:translateY(12px)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px;opacity:0;transform:translateY(12px)}
+.play .hero-line,.play .hero-sub,.play .hero-actions{animation:rise 1s cubic-bezier(.22,.75,.3,1) forwards}
+.play .hero-line{animation-delay:.2s}
+.play .hero-sub{animation-delay:.55s}
+.play .hero-actions{animation-delay:.8s}
 @keyframes rise{to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){
-  .q,.hero-line,.hero-sub,.hero-actions,.hero-photo{opacity:1!important;transform:none!important;animation:none!important}
+.hero-pause{position:absolute;z-index:2;right:22px;top:96px;font-family:inherit;font-size:12.5px;
+  color:rgba(255,255,255,.85);background:rgba(20,30,36,.35);border:1px solid rgba(255,255,255,.35);
+  border-radius:20px;padding:6px 13px;cursor:pointer;transition:background .18s ease}
+.hero-pause:hover{background:rgba(20,30,36,.6)}
+@media (max-width:600px){
+  .hero{min-height:calc(88svh - 70px)}
+  .hero-pause{right:14px;top:78px}
 }
+@media (prefers-reduced-motion:reduce){
+  .hero-line,.hero-sub,.hero-actions{opacity:1!important;transform:none!important;animation:none!important}
+}
+/* 스크립트가 꺼져 있어도 글은 보이게 */
+.no-js .hero-line,.no-js .hero-sub,.no-js .hero-actions{opacity:1;transform:none}
+
+/* ── 홈 (시안 A 세이지 오가닉, 2026-11-10) ───────────────────────
+   글은 줄이고 모양으로 말한다: 둥근 모래색 덩어리, 알약 모양 태그, 둥근 사진. */
+.btn-light{background:#fff;color:var(--sky-deep)}
+.btn-light:hover{background:var(--sky-soft)}
+.intro{position:relative;overflow:hidden;padding:120px 0}
+.intro-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+@media (max-width:900px){ .intro-grid{grid-template-columns:1fr;gap:64px} }
+.blob{position:absolute;z-index:0;border-radius:58% 42% 63% 37%/45% 55% 45% 55%;background:var(--ivory);pointer-events:none}
+.intro .blob{width:min(560px,80vw);height:min(480px,68vw);left:-8%;top:30px}
+.intro .wrap{position:relative;z-index:1}
+.qs{margin:0 0 30px}
+.q{font-family:'Gowun Batang',serif;font-size:clamp(22px,2.8vw,30px);line-height:1.6;color:var(--ink);margin:0 0 12px}
+.q b{font-weight:400;color:var(--sky-deep)}
+/* 태그는 세 칸씩 두 줄 — 다섯 개면 마지막 하나가 혼자 떨어진다(원장님 지적) */
+.chips{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:340px}
+.chips li{background:#fff;border-radius:30px;padding:8px 18px;font-size:15px;color:var(--ink-soft);text-align:center}
+.prof-band{padding:60px 0 110px}
+.prof{display:inline-flex;align-items:center;gap:22px;text-decoration:none;color:inherit}
+.prof img{width:160px;height:200px;object-fit:cover;object-position:50% 14%;border-radius:90px 90px 26px 26px;background:var(--sky-soft)}
+.prof b{display:block;font-family:'Gowun Batang',serif;font-weight:400;font-size:24px;line-height:1.4}
+.prof small{display:block;font-size:14px;color:var(--ink-soft);margin-top:4px}
+.prof:hover b{color:var(--sky-deep)}
+.say{font-family:'Gowun Batang',serif;font-size:clamp(19px,2.2vw,24px);line-height:1.7;margin:30px 0 0}
+.band--sage{background:var(--sky-deep);color:#fff}
+.band--sage h2{color:#fff;margin-bottom:30px}
+.pics{display:grid;grid-template-columns:1.3fr 1fr;gap:12px;max-width:760px}
+.pics a{display:block;border-radius:24px;overflow:hidden}
+.pics img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;transition:transform .5s ease}
+.pics a:first-child{grid-row:span 2}
+.pics a:first-child img{aspect-ratio:auto;height:100%}
+.pics a:hover img{transform:scale(1.03)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;max-width:760px}
+.facts a{display:block;text-decoration:none;color:#fff;background:rgba(255,255,255,.12);border-radius:20px;padding:20px 22px;transition:background .2s ease}
+.facts a:hover{background:rgba(255,255,255,.2)}
+.facts b{display:block;font-family:'Gowun Batang',serif;font-weight:400;font-size:26px;line-height:1.3}
+.facts small{font-size:14px;color:rgba(255,255,255,.85)}
+@media (max-width:600px){
+  .intro{padding:84px 0}
+  .chips li{padding:7px 14px;font-size:14px}
+  .prof-band{padding:44px 0 84px}
+  .prof img{width:140px;height:176px}
+  .prof b{font-size:22px}
+}
+@media (prefers-reduced-motion:reduce){ .pics img{transition:none} .pics a:hover img{transform:none} }
 
 .btn{
   display:inline-block;text-decoration:none;font-size:15px;font-weight:500;
-  padding:15px 28px;border-radius:9px;border:1px solid transparent;
+  padding:15px 30px;border-radius:40px;border:1px solid transparent;
   transition:background .18s ease,border-color .18s ease,color .18s ease;
 }
 .btn-solid{background:var(--sky-deep);color:#fff}
-.btn-solid:hover{background:#24485C}
+.btn-solid:hover{background:#3E4D3F}
 .btn-line{border-color:var(--mist);color:var(--ink)}
 .btn-line:hover{border-color:var(--sky);background:var(--sky-soft)}
+.btn-ghost{border-color:rgba(255,255,255,.55);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.14);border-color:#fff}
 .band--deep .btn-line{border-color:rgba(255,255,255,.35);color:#fff}
 .band--deep .btn-line:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
 
 /* ── 스크롤 등장 ──────────────────────────────────────────────── */
 .rv{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease}
 .rv.in{opacity:1;transform:none}
+.no-js .rv{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){ .rv{opacity:1;transform:none;transition:none} }
 
 /* ── 목록 ─────────────────────────────────────────────────────── */
@@ -180,16 +238,16 @@ header{
 .steps{display:grid;gap:0;margin-top:8px}
 .step{display:grid;grid-template-columns:74px 1fr;gap:24px;padding:30px 0;border-top:1px solid rgba(255,255,255,.16)}
 .step:last-child{border-bottom:1px solid rgba(255,255,255,.16)}
-.step .n{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#8FBAD1;padding-top:5px;letter-spacing:.06em}
+.step .n{font-family:'Gowun Batang',serif;font-size:22px;color:#B5C6AF;line-height:1.4}
 .step h3{margin-bottom:8px}
-.step p{margin:0;color:#B6CEDC;font-size:16px}
+.step p{margin:0;color:#C4D0BF;font-size:16px}
 @media (max-width:600px){ .step{grid-template-columns:52px 1fr;gap:14px} }
 
 /* ── 정보 카드 ────────────────────────────────────────────────── */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--mist);
-  border:1px solid var(--mist);border-radius:12px;overflow:hidden}
+  border:1px solid var(--mist);border-radius:22px;overflow:hidden}
 .card{background:var(--surface);padding:32px 28px}
-.card .k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--sky-deep);margin-bottom:12px}
+.card .k{font-size:13.5px;color:var(--sky-deep);margin-bottom:10px}
 .card .v{font-family:'Gowun Batang',serif;font-size:25px;line-height:1.5}
 .card .s{font-size:14px;color:var(--ink-soft);margin-top:8px;line-height:1.75}
 
@@ -198,7 +256,7 @@ header{
 @media (max-width:820px){ .person{grid-template-columns:1fr;gap:32px} }
 .photo{
   border-radius:12px;aspect-ratio:4/5;border:1px solid var(--mist);
-  background:linear-gradient(168deg,#EAF2F7 0%,#F4EFE6 100%);
+  background:linear-gradient(168deg,#E2E7DB 0%,#E8E2D3 100%);
   display:flex;align-items:flex-end;padding:20px;
 }
 .photo .cap{font-size:12.5px;color:var(--ink-soft);line-height:1.7}
@@ -208,13 +266,13 @@ header{
 /* 사진은 대부분 휴대폰으로 찍은 것이라 형광등 색이 돌고 채도가 세다.
    사이트의 아이보리·하늘색 톤과 붙게 살짝 눕히고, 가장자리를 흰색으로 풀어
    네모가 툭 튀어나와 보이지 않게 한다. 지도(.mapfig)는 글씨를 읽어야 해서 뺀다. */
-.fig{margin:0;overflow:hidden;border-radius:12px;border:1px solid var(--mist);background:var(--sky-soft);position:relative}
+.fig{margin:0;overflow:hidden;border-radius:24px;border:1px solid var(--mist);background:var(--sky-soft);position:relative}
 .fig img{display:block;width:100%;height:100%;object-fit:cover;
   filter:saturate(.86) sepia(.07) brightness(1.05) contrast(.95)}
 .fig::after{
   content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit;
   background:radial-gradient(118% 108% at 50% 46%,
-    rgba(255,255,255,0) 52%, rgba(255,255,255,.22) 82%, rgba(255,255,255,.62) 100%);
+    rgba(255,255,255,0) 100%, rgba(255,255,255,0) 100%, rgba(255,255,255,0) 100%);
 }
 .fig--tall{aspect-ratio:4/5}
 .fig--wide{aspect-ratio:16/10}
@@ -241,7 +299,7 @@ header{
   color:var(--ink-soft);white-space:nowrap}
 .mark em{font-style:normal;color:var(--sky-deep)}
 .band--deep .mark::before,.band--deep .mark::after{background:rgba(255,255,255,.20)}
-.band--deep .mark span{color:#9FC6DA}
+.band--deep .mark span{color:#C9D6C4}
 .band--deep .mark em{color:#fff}
 @media (max-width:600px){ .mark span{font-size:12.5px;letter-spacing:.24em;text-indent:.24em} }
 
@@ -260,7 +318,7 @@ header{
   font-size:13.5px;color:var(--ink-soft)}
 .mapfig figcaption b{font-weight:500;color:var(--ink)}
 .mapfig figcaption .go{color:var(--sky-deep)}
-.mapfig figcaption .src{color:#93A2AB;font-size:12.5px}
+.mapfig figcaption .src{color:#959C90;font-size:12.5px}
 /* 좁은 화면에서는 줄이지 말고 잘라서 — 글씨가 읽혀야 한다 */
 @media (max-width:640px){
   .mapfig img{aspect-ratio:3/4;object-fit:cover;object-position:52% 42%}
@@ -279,9 +337,9 @@ header{
 .post .x{grid-column:1/-1;font-size:15.5px;color:var(--ink-soft);line-height:1.9;margin-top:6px;display:none}
 .post.open .x{display:block}
 .band--ivory .post{background:var(--ivory)}
-.band--ivory .post:hover{background:#EFE8DC}
+.band--ivory .post:hover{background:#E2DBCA}
 
-.review{background:var(--surface);border:1px solid var(--mist);border-radius:12px;padding:30px 28px}
+.review{background:#FBFAF6;border:0;border-radius:22px;padding:30px 28px}
 /* 후기는 한 줄에 하나씩(원장 지시 2026-08-24). 전에는 넓은 화면에서 두 개씩 붙었다.
    너비를 읽기 좋은 폭으로 묶어 둔다 — 안 그러면 짧은 후기가 가로로 텅 비어 보인다. */
 .reviews{display:grid;grid-template-columns:1fr;gap:18px;max-width:760px}
@@ -299,7 +357,7 @@ input[type=text],input[type=tel],input[type=email],input[type=password],select,t
   background:#fff;font-family:inherit;font-size:15.5px;font-weight:300;color:var(--ink);line-height:1.7;
 }
 textarea{min-height:120px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:var(--sky);outline:none;box-shadow:0 0 0 3px rgba(127,176,204,.18)}
+input:focus,select:focus,textarea:focus{border-color:var(--sky);outline:none;box-shadow:0 0 0 3px rgba(147,166,143,.25)}
 .hint{font-size:13.5px;color:var(--ink-soft);margin-top:7px;line-height:1.75}
 .agree{display:flex;gap:11px;align-items:flex-start;background:var(--ivory);padding:18px 20px;border-radius:10px}
 .agree input{margin-top:5px;width:17px;height:17px;flex:none;accent-color:var(--sky-deep)}
@@ -312,7 +370,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--sky);outline:none;box
 .info{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--mist);border:1px solid var(--mist);border-radius:12px;overflow:hidden}
 @media (max-width:760px){ .info{grid-template-columns:1fr} }
 .info div{background:var(--surface);padding:26px 28px}
-.info .k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--sky-deep);margin-bottom:9px}
+.info .k{font-size:13.5px;color:var(--sky-deep);margin-bottom:8px}
 .info .v{font-size:16px;line-height:1.85}
 .info a{color:var(--sky-deep)}
 
@@ -364,7 +422,7 @@ footer a{color:var(--sky-deep)}
 .pp{font-size:14.5px;line-height:1.95;color:var(--ink-soft)}
 .pp b{color:var(--ink);font-weight:500}
 .pp .ppLead{padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--mist);color:var(--ink)}
-.pp .ppDate{margin-top:26px;padding-top:16px;border-top:1px solid var(--mist);font-size:13.5px;color:#8B9AA4}
+.pp .ppDate{margin-top:26px;padding-top:16px;border-top:1px solid var(--mist);font-size:13.5px;color:#8B9286}
 
 .kko{position:fixed;right:20px;bottom:20px;z-index:50;background:#FEE500;color:#191600;
   text-decoration:none;font-size:14.5px;font-weight:500;padding:14px 20px;border-radius:30px;
@@ -376,11 +434,9 @@ footer a{color:var(--sky-deep)}
    ══════════════════════════════════════════════════════════════ */
 
 /* 헤더가 떠 있으므로 #연결 로 뛰어갈 때 제목이 가리지 않게 */
-section[id]{scroll-margin-top:86px}
+section[id]{scroll-margin-top:90px}
 
 /* 지금 보고 있는 메뉴 표시 */
-.menu a.on{color:var(--sky-deep);background:var(--sky-soft)}
-.menu a.cta.on{background:#24485C;color:#fff}
 
 /* 홈이 아닌 페이지의 큰 제목 — h2 와 같은 크기로 */
 h1:not(.hero-line){font-size:clamp(26px,3.4vw,38px);line-height:1.55;margin-bottom:34px}
@@ -394,9 +450,9 @@ h1:not(.hero-line){font-size:clamp(26px,3.4vw,38px);line-height:1.55;margin-bott
 /* 꼬리말 맨 아래 — 글은 상담센터 것, 만든 것은 Perfect_Web 것 */
 footer .fend{margin-top:26px;padding-top:20px;border-top:1px solid var(--mist);
   display:flex;justify-content:space-between;gap:10px 28px;flex-wrap:wrap;
-  font-size:13px;color:#8B9AA4}
+  font-size:13px;color:#8B9286}
 footer .fend p{margin:0}
-footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
+footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6B7368}
 @media (max-width:600px){ footer .fend{display:block} footer .fend .by{margin-top:6px} }
 
 /* 떠 있는 노란 카톡 버튼이 맨 아랫줄을 가리지 않게 자리를 비워둔다 */
@@ -415,7 +471,7 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 
 /* ── 후기 남기기 (2026-08-24) ──────────────────────────────────── */
 .review .rm{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.review .rd{color:#9AA8B1;font-variant-numeric:tabular-nums}
+.review .rd{color:#9AA294;font-variant-numeric:tabular-nums}
 
 .rvform{margin-top:34px;border:1px solid var(--mist);border-radius:12px;
   background:var(--surface);max-width:700px}
@@ -470,4 +526,19 @@ footer .fend .by b{font-weight:500;letter-spacing:.01em;color:#6E7F89}
 /* ═══ 2026-08-27 UX: 모바일에서 입력칸 글씨 16px — iOS 자동 확대 방지 ═══ */
 @media (max-width:820px){
   input:not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px}
+}
+
+/* ═══ 2026-11-10 모바일 줄바꿈 ═══
+   제목은 줄 길이를 고르게(balance), 본문은 마지막 줄에 한 낱말만 남지 않게(pretty).
+   좁은 화면에서는 제목 속 <br> 을 풀어 브라우저가 고르게 나누도록 한다 —
+   <br> 과 자동 줄바꿈이 겹치면 "걸려 있다면," 처럼 한 덩어리가 혼자 떨어진다. */
+.nw{white-space:nowrap}
+.hero-sub{text-wrap:balance}
+h1,h2,h3,p,li,.hint,.lead,figcaption,.card .s{text-wrap:pretty}
+@media (max-width:600px){
+  .read p br,.hint br,.lead br{display:none}
+  .band{padding:88px 0}
+  .band--tight{padding:72px 0}
+  h2,h1:not(.hero-line){margin-bottom:26px}
+  .wrap{padding:0 22px}
 }

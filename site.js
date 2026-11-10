@@ -19,36 +19,36 @@
    ═══════════════════════════════════════════════════════════════ */
 
 var STEPS = [
-  ['01','상담 문의 및 신청','상담을 원하는 이유와 가능한 일정을 간단하게 남깁니다.'],
-  ['02','첫 상담','현재 가장 힘든 문제와 상담을 통해 다루고 싶은 부분을 함께 살펴봅니다.'],
-  ['03','상담 방향 설정','첫 상담 내용을 바탕으로 현재의 어려움과 상담 목표, 진행 방향을 함께 정합니다.'],
-  ['04','지속 상담','정기적인 상담을 통해 감정과 관계에서 반복되는 패턴을 탐색하고, 실제 생활에서의 변화를 함께 살펴봅니다.'],
-  ['05','종결','변화한 부분을 정리하고, 스스로 자신의 마음을 이해하고 돌볼 수 있는 힘을 확인하며 마무리합니다.']
+  ['01','문의 · 신청','상담을 원하는 이유와 가능한 시간을 짧게 남겨 주세요.'],
+  ['02','첫 상담','지금 가장 힘든 일과 상담에서 다루고 싶은 것을 이야기합니다.'],
+  ['03','방향 정하기','첫 상담 내용을 바탕으로 상담 목표와 진행 방식을 정합니다.'],
+  ['04','정기 상담','감정과 관계에서 되풀이되는 패턴을 살피고 일상에서 무엇이 달라지는지 확인합니다.'],
+  ['05','마무리','달라진 점을 정리하고 혼자서도 내 마음을 돌볼 수 있는지 확인한 뒤 끝냅니다.']
 ];
 
 var WHO = [
-  '이유를 정확히 모르겠지만 마음이 계속 힘든 분',
+  '이유는 잘 모르겠는데 마음이 계속 힘든 분',
   '우울과 무기력이 반복되는 분',
   '불안과 걱정이 많아 쉽게 지치는 분',
   '사람의 말이나 반응에 지나치게 영향을 받는 분',
   '관계에서 비슷한 상처가 반복되는 분',
-  '거절하거나 자신의 경계를 세우는 것이 어려운 분',
-  '다른 사람에게 인정받아야 안심되는 분',
+  '거절하거나 선을 긋는 게 어려운 분',
+  '누군가에게 인정받아야 마음이 놓이는 분',
   '완벽하게 해야 한다는 압박이 심한 분',
   '자기 자신에게 지나치게 엄격한 분',
-  '머리로는 알고 있지만 감정이 따라오지 않는 분',
+  '머리로는 아는데 감정이 따라오지 않는 분',
   '비슷한 연애나 인간관계 문제가 반복되는 분',
-  '내가 어떤 사람인지 좀 더 깊이 이해하고 싶은 분'
+  '내가 어떤 사람인지 더 알고 싶은 분'
 ];
 
 /* 마음읽기 — 칼럼 */
 var COLUMNS = [
   ['머리로는 아는데 마음이 따라오지 않을 때','2026.08.10',
-   '“이렇게 생각하면 된다”는 걸 몰라서 못 하는 경우는 생각보다 드뭅니다. 알고 있는데도 몸과 감정이 다르게 반응한다면, 그 반응은 한때 나를 지켜주던 방식이었을 가능성이 큽니다. 바꾸려 하기 전에, 그 방식이 언제부터 필요했는지를 먼저 봅니다.'],
+   '어떻게 생각하면 되는지 몰라서 못 바꾸는 경우는 생각보다 드뭅니다. 알면서도 몸과 감정이 다르게 반응한다면 그 반응은 한때 나를 지켜 주던 방식이었을 가능성이 큽니다. 바꾸려 하기 전에 그 방식이 언제부터 필요했는지 먼저 봅니다.'],
   ['거절이 유난히 어려운 마음에 대하여','2026.07.22',
-   '거절을 못 하는 것은 성격이 약해서가 아니라, 거절했을 때 벌어질 일을 이미 겪어본 적이 있기 때문일 수 있습니다. 상담에서는 “거절하는 법”을 연습하기 전에, 거절이 왜 그렇게 위험하게 느껴지는지를 먼저 살펴봅니다.'],
+   '거절을 못 하는 건 성격이 약해서라기보다, 거절한 뒤에 벌어질 일을 이미 겪어 봤기 때문일 수 있습니다. 상담에서는 거절하는 법을 연습하기 전에 거절이 왜 그렇게 위험하게 느껴지는지부터 봅니다.'],
   ['반복되는 관계에는 이유가 있습니다','2026.07.05',
-   '비슷한 사람을 만나고 비슷한 지점에서 지치는 일이 반복된다면, 우연이 아니라 익숙함일 수 있습니다. 익숙한 것은 편한 것과 다릅니다. 무엇이 익숙해서 끌리는지를 알게 되면, 그때부터 다른 선택이 가능해집니다.']
+   '비슷한 사람을 만나고 비슷한 데서 지치는 일이 되풀이된다면 우연으로 넘기기 전에 익숙함을 의심해 볼 만합니다. 익숙하다고 편한 건 아닙니다. 무엇이 익숙해서 끌리는지 알게 되면 다른 선택도 보이기 시작합니다.']
 ];
 
 var $ = function(id){ return document.getElementById(id); };
@@ -329,13 +329,23 @@ if($('column-list')){
 }
 
 /* 메뉴 */
-$('burger').addEventListener('click', function(){
-  var m = $('menu'), on = m.classList.toggle('open');
-  this.setAttribute('aria-expanded', on ? 'true':'false');
-});
-$('menu').addEventListener('click', function(e){
-  if(e.target.tagName==='A') $('menu').classList.remove('open');
-});
+var hdr = document.querySelector('header');
+function menuSet(on){
+  $('menu').classList.toggle('open', on);
+  hdr.classList.toggle('menu-open', on);
+  $('burger').setAttribute('aria-expanded', on ? 'true':'false');
+  $('burger').setAttribute('aria-label', on ? '메뉴 닫기':'메뉴 열기');
+  document.documentElement.style.overflow = on ? 'hidden' : '';
+}
+$('burger').addEventListener('click', function(){ menuSet(!$('menu').classList.contains('open')); });
+$('menu').addEventListener('click', function(e){ if(e.target.tagName==='A') menuSet(false); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape' && $('menu').classList.contains('open')) menuSet(false); });
+
+/* 홈 — 영상 위에 떠 있던 머리말이 조금 내려가면 바탕을 깐다 */
+if(hdr.classList.contains('over')){
+  var hdrTick = function(){ hdr.classList.toggle('solid', window.scrollY > 40); };
+  window.addEventListener('scroll', hdrTick, {passive:true}); hdrTick();
+}
 
 /* 스크롤 등장 */
 var io = new IntersectionObserver(function(es){
@@ -346,6 +356,18 @@ document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
 /* 히어로 시퀀스 — 홈에만 있다 */
 var heroEl = document.querySelector('.hero');
 if(heroEl) requestAnimationFrame(function(){ heroEl.classList.add('play'); });
+
+/* 첫 화면 영상 — 움직임 줄이기 설정이면 처음부터 멈춰 두고, 버튼으로 멈춤/재생 */
+var hv = document.querySelector('.hero-video'), hp = $('heroPause');
+if(hv && hp){
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function hvSet(play){
+    if(play){ var p = hv.play(); if(p && p.catch) p.catch(function(){}); hp.textContent='멈춤'; hp.setAttribute('aria-label','배경 영상 멈추기'); }
+    else { hv.pause(); hp.textContent='재생'; hp.setAttribute('aria-label','배경 영상 재생'); }
+  }
+  if(still){ hv.removeAttribute('autoplay'); hvSet(false); }
+  hp.addEventListener('click', function(){ hvSet(hv.paused); });
+}
 
 /* 개인정보처리방침 */
 function ppOpen(e){ if(e) e.preventDefault(); $('ppModal').classList.add('on'); $('ppClose').focus(); }

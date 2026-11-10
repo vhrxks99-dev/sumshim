@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="no-js">
 <head>
+<script>document.documentElement.classList.remove("no-js")</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>쉬는숨쉬는쉼 상담센터 | 마음을 바꾸기 전에, 그 마음을 이해하는 시간</title>
@@ -30,7 +31,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#3A6E8C">
+<meta name="theme-color" content="#4F6150">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
@@ -65,119 +66,104 @@
 </head>
 <body>
 
-<header>
+<header class="over">
   <div class="wrap nav">
     <a class="brand" href="index.html">쉬는숨 <span>쉬는쉼</span></a>
-    <button class="burger" id="burger" aria-label="메뉴 열기" aria-expanded="false">메뉴</button>
-    <nav class="menu" id="menu">
+    <button class="burger" id="burger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+    <nav class="menu" id="menu" aria-label="주 메뉴">
       <a href="index.html" class="on">센터소개</a>
       <a href="philosophy.html">상담철학</a>
       <a href="counseling.html">상담안내</a>
-      <a href="counseling.html#counselor">상담사소개</a>
       <a href="art.html">미술치료</a>
       <a href="column.html">마음읽기</a>
       <a href="review.html">상담후기</a>
       <a href="apply.html#visit">오시는길</a>
       <a href="apply.html" class="cta">상담신청</a>
+      <p class="menu-foot"><a href="tel:01094559580">010-9455-9580</a> · 서대문구 신촌로 109</p>
     </nav>
   </div>
 </header>
 
-<!-- ═══ HOME — 내담자가 스스로에게 던지는 질문에서 시작한다 ═══ -->
+<!-- ═══ HOME — 첫 화면은 영상 한 장면 (2026-11-10 리빌딩, 시안 A 세이지 오가닉)
+     영상을 바꾸려면 media/hero.mp4 와 media/hero.jpg(첫 장면)를 같은 이름으로 덮어쓰면 된다.
+     지금 영상은 mixkit 무료 영상(id 25377). 대표님 상담 장면을 찍으면 그걸로 바꾼다. ═══ -->
 <section class="hero" id="home">
-  <div class="wrap hero-grid">
-    <div class="hero-text">
-      <div class="qs" id="qs">
-        <p class="q">“왜 나는 <b>이것밖에 안 될까?</b>”</p>
-        <p class="q">“왜 또 <b>같은 관계를 반복할까?</b>”</p>
-        <p class="q">“머리로는 아는데 왜 <b>마음은 달라지지 않을까?</b>”</p>
-      </div>
-      <h1 class="hero-line">마음을 바꾸기 전에,<br>그 마음을 이해하는 시간.</h1>
-      <div class="hero-sub">
-        <p class="lead">불안, 우울, 관계의 어려움, 반복되는 감정에는 저마다의 이유와 역사가 있습니다.
-          쉬는숨쉬는쉼 상담센터는 당장의 문제를 없애는 것에만 머무르지 않고,
-          내 마음이 왜 이렇게 움직이는지 함께 이해해 나갑니다.</p>
-      </div>
-      <div class="hero-actions">
-        <a class="btn btn-solid" href="apply.html">상담 신청하기</a>
-        <a class="btn btn-line" href="philosophy.html">상담 철학 읽기</a>
-      </div>
+  <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+         poster="media/hero.jpg" aria-hidden="true">
+    <source src="media/hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-veil" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <h1 class="hero-line">마음을 바꾸기 전에, <br>그 마음을 이해하는 시간.</h1>
+    <div class="hero-actions">
+      <a class="btn btn-light" href="apply.html">상담 신청</a>
     </div>
+  </div>
+  <button class="hero-pause" id="heroPause" type="button" aria-label="배경 영상 멈추기">멈춤</button>
+</section>
 
-    <!-- 상담은 사람을 보고 결정한다. 글보다 얼굴이 먼저 신뢰를 만든다.
-         글이 다 올라온 뒤 마지막에 천천히 떠오르게 한다(hero-photo 지연). -->
-    <figure class="hero-photo">
-      <img src="img/counselor-cut.webp" width="549" height="652" fetchpriority="high" decoding="async"
-           alt="김민정 상담사">
-      <figcaption>
-        <b>김민정</b> 상담사
-        <span>심리상담 · 미술치료 약 10년</span>
-      </figcaption>
-    </figure>
+<!-- ═══ 자주 듣는 말 + 다루는 마음 + 상담사 (넓은 화면은 좌우, 휴대폰은 위아래) ═══ -->
+<section class="band intro" id="intro">
+  <div class="blob" aria-hidden="true"></div>
+  <div class="wrap intro-grid">
+    <div>
+      <div class="qs">
+        <p class="q rv">“왜 나는 <b>이것밖에 안 될까?</b>”</p>
+        <p class="q rv">“왜 또 <b>같은 관계를 반복할까?</b>”</p>
+      </div>
+      <ul class="chips rv" aria-label="주로 다루는 마음">
+        <li>불안</li><li>우울</li><li>무기력</li>
+        <li>관계</li><li>자기비난</li><li>완벽주의</li>
+      </ul>
+    </div>
+    <div class="prof-col">
+      <a class="prof rv" href="counseling.html#counselor">
+        <img src="img/counselor-cut.webp" width="549" height="652" decoding="async" alt="김민정 상담사">
+        <span><b>김민정 상담사</b><small>심리상담 · 미술치료 약 10년</small></span>
+      </a>
+      <p class="say rv">이유를 알고 나면, <br>같은 감정도 덜 무서워집니다.</p>
+    </div>
   </div>
 </section>
 
-<!-- ═══ 센터소개 — 인사말·비전 ═══ -->
-<section class="band band--ivory" id="about">
+<!-- ═══ 홈 — 상담실·미술치료·비용 한눈에 (시안 A 세이지 띠) ═══ -->
+<section class="band band--sage" id="space">
   <div class="wrap">
-    <p class="eyebrow rv">센터소개</p>
-    <div class="read">
-      <h2 class="rv">이곳을 찾아주신 모든 분들을<br>진심으로 환영합니다.</h2>
-      <div class="rv">
-        <p>우리는 살아가면서 마음이 버거워지는 순간들을 마주합니다.
-          그럴 때마다 “왜 나는 이럴까”라는 질문을 스스로에게 던지지만, 그 답은 쉽게 보이지 않기도 합니다.</p>
-        <p>쉬는숨쉬는쉼 상담센터는 그런 마음의 질문들에 대해 함께 천천히 귀 기울이는 공간입니다.
-          지금의 감정을 없애거나 바꾸기보다, 그 감정이 생겨난 이유와 흐름을 이해하는 과정 속에서
-          조금씩 자신을 회복해 나갈 수 있도록 돕고자 합니다.</p>
-      </div>
+    <h2 class="rv">둘만 이야기하는 방, <br><span class="nw">말 대신 그림도 됩니다.</span></h2>
+    <div class="pics rv">
+      <a href="counseling.html#room"><img src="img/room-view.jpg" decoding="async" alt="상담실 — 넓은 책상과 의자, 책장이 있는 조용한 방"></a>
+      <a href="art.html"><img src="img/room-a.jpg" decoding="async" alt="작업 책상 위 오일파스텔, 색연필, 이미지 카드"></a>
+      <a href="art.html"><img src="img/room-b.jpg" decoding="async" alt="오일파스텔로 그린 원 세 개와 파스텔 한 통"></a>
     </div>
-    <div class="mark rv" style="margin:56px 0"><span>쉬는숨 <em>쉬는쉼</em></span></div>
-    <div class="read rv">
-      <h3>비전</h3>
-      <p>한 사람이 자신의 마음을 더 깊이 이해하고, 그 이해를 바탕으로 삶에서 조금 더 편안하고
-        진실한 선택을 할 수 있도록 돕는 것.</p>
-      <p class="muted">우리는 빠른 변화나 즉각적인 해결보다 이해에서 비롯되는 변화, 그리고 그 변화가 삶에
-        자연스럽게 스며드는 과정을 중요하게 생각합니다. 각자가 자신의 감정과 관계를 더 잘 이해하게 될 때,
-        삶은 조금 더 안정되고, 자신에게도 조금 더 부드러워질 수 있다고 믿습니다.</p>
+    <div class="facts rv">
+      <a href="counseling.html"><b>50분</b><small>1회 상담</small></a>
+      <a href="counseling.html"><b>8만 원</b><small>1회 기준</small></a>
     </div>
   </div>
 </section>
 
-<!-- ═══ 이런 분들에게 ═══ -->
-<section class="band band--tight" id="who">
-  <div class="wrap">
-    <p class="eyebrow rv">이런 분들에게 상담을 권합니다</p>
-    <h2 class="rv wide-line">한 가지라도 오래 마음에 걸렸다면,<br>이야기해 볼 만한 이유가 됩니다.</h2>
-    <ul class="qlist rv" id="who-list"></ul>
-  </div>
-</section>
-
-<!-- ═══ 상담 후기 (홈 — 맛보기) ═══
-     후기 전체와 쓰는 칸은 review.html 에 있다(2026-08-24 원장 지시로 게시판을 따로 뺐다).
-     홈에서는 최근 세 개만 보여주고 나머지는 후기 페이지로 넘긴다. -->
+<!-- ═══ 상담 후기 (홈 — 최근 세 개) ═══
+     후기 전체와 쓰는 칸은 review.html 에 있다. -->
 <section class="band" id="reviews">
   <div class="wrap">
-    <p class="eyebrow rv">상담 후기</p>
-    <h2 class="rv wide-line">방문해 주신 분들이 직접 남겨주신 후기입니다.<br>이름 대신 연령대와 상담 유형만 표시합니다.</h2>
+    <h2 class="rv wide-line">다녀가신 분들이 <span class="nw">남긴 후기</span></h2>
+    <p class="hint rv" style="margin:-18px 0 30px">이름 대신 연령대와 상담 유형만 표시합니다. 상담 내용과 개인정보 보호를 가장 먼저 생각합니다.</p>
 
     <div class="reviews rv" id="reviews-list" data-limit="3"></div>
     <p class="rv" id="reviews-empty" style="display:none;color:var(--ink-soft);font-size:15px;line-height:1.9;margin:0">
-      아직 남겨주신 후기가 없습니다.<br>첫 후기를 기다리고 있습니다.</p>
+      아직 올라온 후기가 없습니다. 첫 후기를 기다리고 있습니다.</p>
 
     <div class="btns rv" style="margin-top:30px">
       <a class="btn btn-line" href="review.html">후기 전체 보기 · 후기 남기기</a>
-      <a class="btn btn-line" href="https://m.place.naver.com/place/64677930/review/visitor" target="_blank" rel="noopener">네이버 플레이스 리뷰 더 보기 ↗</a>
+      <a class="btn btn-line" href="https://m.place.naver.com/place/64677930/review/visitor" target="_blank" rel="noopener">네이버 플레이스 리뷰 보기</a>
     </div>
-
-    <p class="hint rv" style="margin-top:22px">내담자의 개인정보와 상담 내용 보호를 가장 우선합니다.</p>
   </div>
 </section>
 
 <!-- ═══ 페이지 끝 — 어디서 읽다 멈추셔도 바로 신청할 수 있게 ═══ -->
 <section class="band band--sky endcta">
   <div class="wrap">
-    <p class="eyebrow rv">상담 신청</p>
-    <h2 class="rv wide-line">이야기를 시작하는 데에<br>특별한 이유는 필요하지 않습니다.</h2>
+    <h2 class="rv wide-line">이야기를 시작하는 데 <br>특별한 이유는 필요 없습니다.</h2>
     <div class="btns rv">
       <a class="btn btn-solid" href="apply.html">상담 신청하기</a>
       <a class="btn btn-line" href="counseling.html">상담 안내 먼저 보기</a>
@@ -222,7 +208,7 @@
     </div>
     <div class="fend">
       <p>&copy; 2026 쉬는숨쉬는쉼 상담센터. All rights reserved.</p>
-      <p class="by">Design &amp; Development &copy; 2026 <b>Perfect_Web</b>. All rights reserved.</p>
+      <p class="by">Design &amp; Development &copy; 2026 <b>Perfect_Web</b>. <span class="nw">All rights reserved.</span></p>
     </div>
   </div>
 </footer>
@@ -240,7 +226,7 @@
         다음과 같이 개인정보처리방침을 둡니다.</p>
 
       <p><b>1. 수집하는 항목</b><br>
-        이름, 연락처, 연령대, 상담 희망 방식, 상담 가능 시간, 상담 신청 사유, 이전 상담 경험 여부.<br>
+        이름, 연락처, 연령대, 상담 희망 방식, 상담 가능 시간, 상담 신청 사유, 이전 상담 경험 여부. <br>
         홈페이지 상담 신청, 전화, 카카오톡 채널을 통해 수집합니다.</p>
 
       <p><b>2. 민감정보의 처리</b><br>
@@ -254,7 +240,7 @@
         그 밖의 목적으로 쓰지 않으며, 목적이 바뀔 경우 미리 동의를 받습니다.</p>
 
       <p><b>4. 보유 및 이용 기간</b><br>
-        상담 종료 후 3년간 보관한 뒤 파기합니다. 상담이 진행되지 않은 경우 신청일로부터 1년 뒤 파기합니다.<br>
+        상담 종료 후 3년간 보관한 뒤 파기합니다. 상담이 진행되지 않은 경우 신청일로부터 1년 뒤 파기합니다. <br>
         다만 다른 법령에서 보존 기간을 정하고 있는 경우에는 그 기간을 따릅니다.</p>
 
       <p><b>5. 파기 절차 및 방법</b><br>
@@ -286,14 +272,14 @@
         위험이 있다고 판단되는 경우, 법령에 따라 예외가 적용될 수 있습니다.</p>
 
       <p><b>11. 개인정보 보호책임자</b><br>
-        성명 김민정 (센터장)<br>
-        연락처 010-9455-9580 · sumshim_@naver.com<br>
+        성명 김민정 (센터장) <br>
+        연락처 010-9455-9580 · sumshim_@naver.com <br>
         개인정보 보호와 관련한 문의, 불만 처리, 피해 구제는 위 연락처로 문의해 주시기 바랍니다.</p>
 
       <p><b>12. 권익침해 구제 방법</b><br>
-        개인정보 침해로 도움이 필요하시면 아래 기관에 문의하실 수 있습니다.<br>
-        개인정보 침해신고센터 (국번없이) 118 · privacy.kisa.or.kr<br>
-        개인정보 분쟁조정위원회 1833-6972 · kopico.go.kr<br>
+        개인정보 침해로 도움이 필요하시면 아래 기관에 문의하실 수 있습니다. <br>
+        개인정보 침해신고센터 (국번없이) 118 · privacy.kisa.or.kr <br>
+        개인정보 분쟁조정위원회 1833-6972 · kopico.go.kr <br>
         대검찰청 사이버수사과 (국번없이) 1301 · 경찰청 사이버수사국 (국번없이) 182</p>
 
       <p><b>13. 방침의 변경</b><br>

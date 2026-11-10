@@ -24,7 +24,6 @@ MENU = [
     ("센터소개",   "index.html",                 "index.html"),
     ("상담철학",   "philosophy.html",            "philosophy.html"),
     ("상담안내",   "counseling.html",            "counseling.html"),
-    ("상담사소개", "counseling.html#counselor",  None),
     ("미술치료",   "art.html",                   "art.html"),
     ("마음읽기",   "column.html",                "column.html"),
     ("상담후기",   "review.html",                "review.html"),
@@ -39,7 +38,7 @@ PAGES = [
       desc="서울 신촌 심리상담센터. 증상을 빠르게 없애기보다 그 마음이 만들어진 이유를 함께 이해합니다. 성인 개인 심리상담 · 미술치료.",
       ogt="쉬는숨쉬는쉼 상담센터",
       ogd="마음을 바꾸기 전에, 그 마음을 이해하는 시간.",
-      body=["home", "about", "who", "reviews-home"],
+      body=["home", "space", "reviews-home"],
       cta=True),
 
  dict(file="review.html",
@@ -55,7 +54,7 @@ PAGES = [
       desc="지금의 감정은 어느 날 갑자기 생겨난 것이 아닙니다. 신촌 쉬는숨쉬는쉼 상담센터가 상담을 바라보는 관점과 상담 진행 과정을 안내합니다.",
       ogt="상담 철학 — 쉬는숨쉬는쉼 상담센터",
       ogd="지금의 감정은 어느 날 갑자기 생겨난 것이 아닙니다.",
-      body=["band-mist", "philosophy"],
+      body=["band-mist", "philosophy", "about", "who"],
       cta=True),
 
  dict(file="counseling.html",
@@ -95,8 +94,7 @@ ENDCTA = """
 <!-- ═══ 페이지 끝 — 어디서 읽다 멈추셔도 바로 신청할 수 있게 ═══ -->
 <section class="band band--sky endcta">
   <div class="wrap">
-    <p class="eyebrow rv">상담 신청</p>
-    <h2 class="rv wide-line">이야기를 시작하는 데에<br>특별한 이유는 필요하지 않습니다.</h2>
+    <h2 class="rv wide-line">이야기를 시작하는 데<br>특별한 이유는 필요 없습니다.</h2>
     <div class="btns rv">
       <a class="btn btn-solid" href="apply.html">상담 신청하기</a>
       <a class="btn btn-line" href="counseling.html">상담 안내 먼저 보기</a>
@@ -118,22 +116,26 @@ def menu_html(current):
 
 
 def header_html(current):
-    return """<header>
+    # 홈은 영상 위에 투명하게 떠 있다가 내려가면 바탕이 생긴다(2026-11-10)
+    over = ' class="over"' if current == "index.html" else ""
+    return """<header%s>
   <div class="wrap nav">
     <a class="brand" href="index.html">쉬는숨 <span>쉬는쉼</span></a>
-    <button class="burger" id="burger" aria-label="메뉴 열기" aria-expanded="false">메뉴</button>
-    <nav class="menu" id="menu">
+    <button class="burger" id="burger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+    <nav class="menu" id="menu" aria-label="주 메뉴">
 %s
+      <p class="menu-foot"><a href="tel:01094559580">010-9455-9580</a> · 서대문구 신촌로 109</p>
     </nav>
   </div>
-</header>""" % menu_html(current)
+</header>""" % (over, menu_html(current))
 
 
 def head_html(p):
     url = SITE + "/" + ("" if p["file"] == "index.html" else p["file"])
     return """<!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="no-js">
 <head>
+<script>document.documentElement.classList.remove("no-js")</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>%(title)s</title>
@@ -163,7 +165,7 @@ def head_html(p):
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#3A6E8C">
+<meta name="theme-color" content="#4F6150">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
@@ -243,6 +245,8 @@ def build():
             '<script src="site.js"></script>',
             "</body>", "</html>", ""
         ])
+        # 좁은 화면에서 제목 속 <br> 을 숨기므로, 그 자리에 띄어쓰기가 남도록 앞에 공백을 둔다
+        html = re.sub(r'(?<=[^\s>])<br>', ' <br>', html)
         with io.open(os.path.join(ROOT, p["file"]), "w", encoding="utf-8", newline="\r\n") as f:
             f.write(html)
         made.append((p["file"], len(html)))
