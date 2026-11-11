@@ -122,6 +122,9 @@ header.over.solid .menu a.cta:hover{background:var(--sky-deep);border-color:var(
   .menu-foot a::after{display:none}
   header.menu-open .brand,header.menu-open .burger{color:var(--ink)}
   header.menu-open .brand span{color:var(--sky-deep)}
+  /* 헤더에 흐림(backdrop-filter)이 걸려 있으면 안쪽 fixed 메뉴가 화면이 아니라 헤더 높이에 갇힌다.
+     스크롤 내린 뒤 메뉴를 열면 반쯤만 덮이던 버그(11/11) — 메뉴가 열려 있는 동안은 흐림을 끈다. */
+  header.menu-open,header.over.solid.menu-open{backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 
 /* ── HERO — 화면 가득 영상 한 장면 (2026-11-10 리빌딩) ───────────────
